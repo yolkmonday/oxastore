@@ -18,13 +18,19 @@ export default function CartItem({ item }: CartItemProps) {
     <div className="flex items-center gap-4 py-6 border-b border-gray-100">
       <div className="flex items-center gap-4 flex-1 min-w-0">
         <div className="w-16 h-20 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
-          <Image
-            src={book.coverImage}
-            alt={book.title}
-            width={64}
-            height={80}
-            className="w-full h-full object-cover"
-          />
+          {book.coverImage ? (
+            <Image
+              src={book.coverImage}
+              alt={book.title}
+              width={64}
+              height={80}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center p-1">
+              <p className="text-[10px] text-gray-400 text-center line-clamp-3">{book.title}</p>
+            </div>
+          )}
         </div>
         <div className="min-w-0">
           <h3 className="font-semibold text-sm text-gray-900">{book.title}</h3>
