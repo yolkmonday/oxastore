@@ -129,6 +129,7 @@ export default function PostForm({
               src={defaultValues.thumbnail}
               alt="Thumbnail saat ini"
               fill
+              sizes="192px"
               className="object-cover rounded"
             />
           </div>
@@ -149,7 +150,7 @@ export default function PostForm({
 
       {/* Content */}
       <div>
-        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Konten
         </label>
         <input type="hidden" name="content" value={content} />
