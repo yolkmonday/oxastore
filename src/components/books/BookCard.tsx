@@ -21,13 +21,21 @@ export default function BookCard({ book }: BookCardProps) {
       </div>
 
       <Link href={`/books/${book.slug || book.id}`} className="flex justify-center mb-4">
-        <Image
-          src={book.coverImage}
-          alt={book.title}
-          width={160}
-          height={220}
-          className="rounded-md object-cover hover:opacity-90 transition-opacity"
-        />
+        {book.coverImage ? (
+          <Image
+            src={book.coverImage}
+            alt={book.title}
+            width={160}
+            height={220}
+            className="rounded-md object-cover hover:opacity-90 transition-opacity"
+          />
+        ) : (
+          <div className="w-[160px] h-[220px] rounded-md bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-4">
+            <p className="text-xs text-gray-500 text-center font-medium leading-relaxed line-clamp-5">
+              {book.title}
+            </p>
+          </div>
+        )}
       </Link>
 
       <div className="flex items-center justify-between">

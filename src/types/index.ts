@@ -11,7 +11,7 @@ export interface Book {
   author: string;
   price: number;
   year: number;
-  coverImage: string;
+  coverImage: string | null;
   category: string;
   tags: string[];
   discount?: number;

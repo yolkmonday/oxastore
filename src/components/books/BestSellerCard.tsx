@@ -11,7 +11,7 @@ interface BestSellerCardProps {
 export default function BestSellerCard({ book }: BestSellerCardProps) {
   return (
     <Link href={`/books/${book.slug || book.id}`} className="group block">
-      <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-3 aspect-[3/4]">
+      <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden mb-3 aspect-[3/4]">
         {book.discount && (
           <Badge
             variant="discount"
@@ -20,12 +20,20 @@ export default function BestSellerCard({ book }: BestSellerCardProps) {
             {book.discount}% OFF
           </Badge>
         )}
-        <Image
-          src={book.coverImage}
-          alt={book.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform"
-        />
+        {book.coverImage ? (
+          <Image
+            src={book.coverImage}
+            alt={book.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <p className="text-xs text-gray-500 text-center font-medium leading-relaxed line-clamp-6">
+              {book.title}
+            </p>
+          </div>
+        )}
       </div>
       <h3 className="font-semibold text-sm text-gray-900">{book.title}</h3>
       <p className="text-xs text-gray-500 mt-0.5">{book.author}</p>
