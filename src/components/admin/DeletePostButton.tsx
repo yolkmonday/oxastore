@@ -7,7 +7,8 @@ export default function DeletePostButton({ id }: { id: string }) {
     if (!confirm("Hapus post ini? Tindakan tidak bisa dibatalkan.")) return;
     try {
       await deletePostAction(id);
-    } catch {
+    } catch (err) {
+      console.error("DeletePostButton error:", err);
       alert("Gagal menghapus post. Silakan coba lagi.");
     }
   }
