@@ -97,6 +97,12 @@ export interface OrderItem {
 
 export type PostStatus = "draft" | "published";
 
+export interface Tag {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export interface Post {
   id: string;
   slug: string;
@@ -108,4 +114,5 @@ export interface Post {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  tags?: Tag[];
 }
