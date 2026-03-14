@@ -17,6 +17,11 @@ const navItems = [
     label: "Kategori",
   },
   {
+    href: "/admin/blog",
+    icon: "mdi:post-outline",
+    label: "Blog",
+  },
+  {
     href: "/admin/sliders",
     icon: "mdi:image-multiple-outline",
     label: "Slider",
