@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { CartProvider } from "@/context/CartContext";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 export default async function UserLayout({
   children,
@@ -15,5 +18,11 @@ export default async function UserLayout({
     redirect("/masuk");
   }
 
-  return <>{children}</>;
+  return (
+    <CartProvider>
+      <Header userEmail={user.email} />
+      <main>{children}</main>
+      <Footer />
+    </CartProvider>
+  );
 }
