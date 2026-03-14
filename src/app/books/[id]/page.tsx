@@ -1,0 +1,144 @@
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { Icon } from "@iconify/react";
+import { getBookById } from "@/data/books";
+import { formatCurrency } from "@/lib/utils";
+import Badge from "@/components/ui/Badge";
+import AddToCartButton from "@/components/books/AddToCartButton";
+
+export const dynamic = "force-dynamic";
+
+interface Props {
+  params: Promise<{ id: string }>;
+}
+
+export default async function BookDetailPage({ params }: Props) {
+  const { id } = await params;
+  const book = await getBookById(id);
+
+  if (!book) notFound();
+
+  const discountedPrice = book.discount
+    ? book.price * (1 - book.discount / 100)
+    : null;
+
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-12">
+      <Link
+        href="/books"
+        className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800 mb-8"
+      >
+        <Icon icon="mdi:arrow-left" className="text-base" />
+        Kembali ke Daftar Buku
+      </Link>
+
+      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
+        {/* Cover */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative w-[220px] aspect-[3/4] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+            {book.discount && (
+              <Badge
+                variant="discount"
+                className="absolute top-2 left-2 z-10"
+              >
+                {book.discount}% OFF
+              </Badge>
+            )}
+            {book.isBestSeller && (
+              <Badge
+                variant="bestseller"
+                className="absolute top-2 right-2 z-10"
+              >
+                Best Seller
+              </Badge>
+            )}
+            <Image
+              src={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
+              alt={book.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <AddToCartButton book={book} />
+        </div>
+
+        {/* Info */}
+        <div>
+          <p className="text-sm text-orange-500 font-medium uppercase tracking-wide mb-1">
+            {book.category}
+          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">{book.title}</h1>
+          <p className="text-gray-500 mb-4">oleh {book.author}</p>
+
+          <div className="flex items-baseline gap-3 mb-6">
+            <span className="text-2xl font-bold text-gray-900">
+              {formatCurrency(discountedPrice ?? book.price)}
+            </span>
+            {discountedPrice && (
+              <span className="text-sm text-gray-400 line-through">
+                {formatCurrency(book.price)}
+              </span>
+            )}
+          </div>
+
+          {book.description && (
+            <div className="mb-8">
+              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                Deskripsi
+              </h2>
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                {book.description}
+              </p>
+            </div>
+          )}
+
+          {/* Metadata grid */}
+          <div className="border-t border-gray-100 pt-6">
+            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">
+              Detail Buku
+            </h2>
+            <dl className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
+              <div>
+                <dt className="text-gray-400">Tahun Terbit</dt>
+                <dd className="font-medium text-gray-900">{book.year}</dd>
+              </div>
+              {book.publisher && (
+                <div>
+                  <dt className="text-gray-400">Penerbit</dt>
+                  <dd className="font-medium text-gray-900">{book.publisher}</dd>
+                </div>
+              )}
+              {book.language && (
+                <div>
+                  <dt className="text-gray-400">Bahasa</dt>
+                  <dd className="font-medium text-gray-900">{book.language}</dd>
+                </div>
+              )}
+              {book.pages && (
+                <div>
+                  <dt className="text-gray-400">Jumlah Halaman</dt>
+                  <dd className="font-medium text-gray-900">{book.pages} halaman</dd>
+                </div>
+              )}
+              {(book.length || book.width) && (
+                <div>
+                  <dt className="text-gray-400">Ukuran</dt>
+                  <dd className="font-medium text-gray-900">
+                    {[book.length, book.width].filter(Boolean).join(" × ")} cm
+                  </dd>
+                </div>
+              )}
+              {book.weight && (
+                <div>
+                  <dt className="text-gray-400">Berat</dt>
+                  <dd className="font-medium text-gray-900">{book.weight} gram</dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

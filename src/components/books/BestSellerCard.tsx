@@ -1,8 +1,6 @@
-"use client";
-
 import Image from "next/image";
+import Link from "next/link";
 import { Book } from "@/types";
-import { useCart } from "@/context/CartContext";
 import { formatCurrency } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 
@@ -11,13 +9,8 @@ interface BestSellerCardProps {
 }
 
 export default function BestSellerCard({ book }: BestSellerCardProps) {
-  const { addToCart } = useCart();
-
   return (
-    <div
-      className="group cursor-pointer"
-      onClick={() => addToCart(book)}
-    >
+    <Link href={`/books/${book.id}`} className="group block">
       <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-3 aspect-[3/4]">
         {book.discount && (
           <Badge
@@ -39,6 +32,6 @@ export default function BestSellerCard({ book }: BestSellerCardProps) {
       <p className="font-semibold text-sm text-gray-900 mt-1">
         {formatCurrency(book.price)}
       </p>
-    </div>
+    </Link>
   );
 }
