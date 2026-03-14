@@ -23,7 +23,7 @@ export default async function AdminLayout({
           <div className="flex items-center gap-2">
             <span className="text-brand-400 text-lg leading-none select-none">✿</span>
             <div>
-              <p className="text-white font-bold text-sm leading-tight">oxastore</p>
+              <p className="text-white font-bold text-sm leading-tight">OXA Store</p>
               <p className="text-slate-500 text-xs">admin panel</p>
             </div>
           </div>

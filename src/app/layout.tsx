@@ -5,9 +5,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "oxamatter — curated books for intentional living",
+  title: "OXA Store — toko buku & penerbit",
   description:
-    "Discover and shop curated books for intentional living at oxamatter.",
+    "Toko buku dan penerbit OXA Publisher. PT OXA Matter Indonesia.",
 };
 
 export default function RootLayout({

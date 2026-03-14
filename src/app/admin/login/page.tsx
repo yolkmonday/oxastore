@@ -10,7 +10,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="bg-white rounded-xl border border-gray-200 p-8 w-full max-w-sm">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Login</h1>
-        <p className="text-sm text-gray-500 mb-6">oxastore</p>
+        <p className="text-sm text-gray-500 mb-6">OXA Store Admin</p>
 
         <form action={action} className="flex flex-col gap-4">
           <div>

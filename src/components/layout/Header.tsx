@@ -18,7 +18,7 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-1">
           <span className="text-brand-500 text-xl">*</span>
-          <span className="text-xl font-bold text-gray-900">oxamatter</span>
+          <span className="text-xl font-bold text-gray-900">OXA Store</span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">

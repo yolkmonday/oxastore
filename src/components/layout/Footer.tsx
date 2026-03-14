@@ -9,10 +9,10 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-1 mb-3">
               <span className="text-brand-500">*</span>
-              <span className="font-bold text-gray-900">oxamatter</span>
+              <span className="font-bold text-gray-900">OXA Store</span>
             </div>
             <p className="text-sm text-gray-500">
-              &copy; 2024 oxamatter. curated books for intentional living.
+              &copy; 2024 PT OXA Matter Indonesia. Toko buku & penerbit.
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export default function Footer() {
       <div className="border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <p className="text-center text-xs text-gray-400 uppercase tracking-widest">
-            Oxamatter Book Club Inc.
+            PT OXA Matter Indonesia
           </p>
         </div>
       </div>
