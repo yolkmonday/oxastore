@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import PostForm from "@/components/admin/PostForm";
 import DeletePostButton from "@/components/admin/DeletePostButton";
 import { getPostById } from "@/data/posts";
+import { getAllTagsAdmin } from "@/data/tags";
 import { updatePostAction } from "@/actions/posts";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 
 export default async function EditBlogPostPage({ params }: Props) {
   const { id } = await params;
-  const post = await getPostById(id);
+  const [post, allTags] = await Promise.all([getPostById(id), getAllTagsAdmin()]);
   if (!post) notFound();
 
   const boundAction = updatePostAction.bind(null, id);
@@ -25,6 +26,7 @@ export default async function EditBlogPostPage({ params }: Props) {
         action={boundAction}
         defaultValues={post}
         submitLabel="Simpan Perubahan"
+        allTags={allTags}
       />
     </div>
   );
