@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:admin": "tsx src/scripts/seed-admin.ts",
+    "seed:books": "tsx src/scripts/seed-books.ts"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
