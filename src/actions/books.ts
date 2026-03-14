@@ -81,6 +81,8 @@ export async function updateBookAction(
 ): Promise<ActionResult> {
   await requireAdmin();
 
+  const supabase = createSupabaseClient();
+
   const parsed = bookSchema.safeParse({
     title: formData.get("title"),
     author: formData.get("author"),
@@ -95,7 +97,12 @@ export async function updateBookAction(
     return { error: parsed.error.errors[0].message };
   }
 
-  const supabase = createSupabaseClient();
+  // Fetch existing cover to delete if a new one is uploaded
+  const { data: existingBook } = await supabase
+    .from("books")
+    .select("cover_image")
+    .eq("id", id)
+    .single();
 
   let cover_image: string | undefined = undefined;
   const coverFile = formData.get("cover_image") as File | null;
@@ -112,6 +119,19 @@ export async function updateBookAction(
       .from("book-covers")
       .getPublicUrl(filename);
     cover_image = urlData.publicUrl;
+
+    // Delete old cover from Storage
+    if (existingBook?.cover_image) {
+      try {
+        const oldUrl = new URL(existingBook.cover_image);
+        const oldPathParts = oldUrl.pathname.split("/book-covers/");
+        if (oldPathParts.length === 2) {
+          await supabase.storage.from("book-covers").remove([oldPathParts[1]]);
+        }
+      } catch {
+        // Non-fatal: old image cleanup failed silently
+      }
+    }
   }
 
   const updateData: Record<string, unknown> = {
@@ -145,10 +165,15 @@ export async function deleteBookAction(id: string): Promise<ActionResult> {
     .single();
 
   if (book?.cover_image) {
-    const url = new URL(book.cover_image);
-    const pathParts = url.pathname.split("/");
-    const filename = pathParts[pathParts.length - 1];
-    await supabase.storage.from("book-covers").remove([filename]);
+    try {
+      const url = new URL(book.cover_image);
+      const pathParts = url.pathname.split("/book-covers/");
+      if (pathParts.length === 2) {
+        await supabase.storage.from("book-covers").remove([pathParts[1]]);
+      }
+    } catch {
+      // Non-fatal: storage cleanup failed silently
+    }
   }
 
   const { error } = await supabase.from("books").delete().eq("id", id);

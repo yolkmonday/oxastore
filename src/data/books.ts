@@ -11,7 +11,7 @@ function mapRow(row: Record<string, unknown>): Book {
     coverImage: (row.cover_image as string) ?? "",
     category: row.category as Category,
     isBestSeller: row.is_bestseller as boolean,
-    discount: row.discount as number | undefined,
+    discount: (row.discount as number | null) ?? undefined,
   };
 }
 

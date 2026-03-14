@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { ActionResult } from "@/actions/books";
 
 interface BookFormProps {
@@ -159,12 +160,12 @@ export default function BookForm({
         >
           {pending ? "Menyimpan..." : submitLabel}
         </button>
-        <a
+        <Link
           href="/admin/books"
           className="text-sm text-gray-500 hover:text-gray-700"
         >
           Batal
-        </a>
+        </Link>
       </div>
     </form>
   );

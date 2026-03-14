@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createSupabaseClient } from "@/lib/supabase";
-import { deleteBookAction } from "@/actions/books";
+import DeleteBookButton from "@/components/admin/DeleteBookButton";
 
 export default async function AdminBooksPage() {
   const supabase = createSupabaseClient();
@@ -63,17 +63,7 @@ export default async function AdminBooksPage() {
                     >
                       Edit
                     </Link>
-                    <form action={deleteBookAction.bind(null, book.id)}>
-                      <button
-                        type="submit"
-                        className="text-red-600 hover:text-red-800 font-medium cursor-pointer"
-                        onClick={(e) => {
-                          if (!confirm(`Hapus "${book.title}"?`)) e.preventDefault();
-                        }}
-                      >
-                        Hapus
-                      </button>
-                    </form>
+                    <DeleteBookButton id={book.id} title={book.title} />
                   </div>
                 </td>
               </tr>

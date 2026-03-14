@@ -98,10 +98,14 @@ export async function changePasswordAction(
   }
 
   const hashed = await hashPassword(newPassword);
-  await supabase
+  const { error: updateError } = await supabase
     .from("admins")
     .update({ password: hashed })
     .eq("id", session.adminId);
+
+  if (updateError) {
+    return { error: "Gagal menyimpan password baru." };
+  }
 
   return {};
 }
