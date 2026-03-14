@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import slugify from "slugify";
 import "react-quill-new/dist/quill.snow.css";
@@ -36,6 +37,7 @@ export default function PostForm({
   const [title, setTitle] = useState(defaultValues.title ?? "");
   const [slug, setSlug] = useState(defaultValues.slug ?? "");
   const [slugAuto, setSlugAuto] = useState(!defaultValues.slug);
+  const [excerpt, setExcerpt] = useState(defaultValues.excerpt ?? "");
   const [content, setContent] = useState(defaultValues.content ?? "");
   const [status, setStatus] = useState<"draft" | "published">(
     defaultValues.status ?? "draft"
@@ -53,10 +55,11 @@ export default function PostForm({
     <form action={formAction} className="flex flex-col gap-5 max-w-2xl">
       {/* Title */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
           Judul <span className="text-red-500">*</span>
         </label>
         <input
+          id="title"
           type="text"
           name="title"
           value={title}
@@ -68,11 +71,12 @@ export default function PostForm({
 
       {/* Slug */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
           Slug <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-2 items-center">
           <input
+            id="slug"
             type="text"
             name="slug"
             value={slug}
@@ -100,12 +104,14 @@ export default function PostForm({
 
       {/* Excerpt */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
           Ringkasan
         </label>
         <textarea
+          id="excerpt"
           name="excerpt"
-          defaultValue={defaultValues.excerpt ?? ""}
+          value={excerpt}
+          onChange={(e) => setExcerpt(e.target.value)}
           rows={3}
           placeholder="Ringkasan singkat untuk preview..."
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-500"
@@ -114,17 +120,21 @@ export default function PostForm({
 
       {/* Thumbnail */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700 mb-1">
           Thumbnail
         </label>
         {defaultValues.thumbnail && (
-          <img
-            src={defaultValues.thumbnail}
-            alt="Thumbnail saat ini"
-            className="w-48 h-28 object-cover rounded mb-2"
-          />
+          <div className="relative w-48 h-28 mb-2">
+            <Image
+              src={defaultValues.thumbnail}
+              alt="Thumbnail saat ini"
+              fill
+              className="object-cover rounded"
+            />
+          </div>
         )}
         <input
+          id="thumbnail"
           type="file"
           name="thumbnail"
           accept="image/*"
@@ -139,7 +149,7 @@ export default function PostForm({
 
       {/* Content */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
           Konten
         </label>
         <input type="hidden" name="content" value={content} />
