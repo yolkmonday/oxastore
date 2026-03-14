@@ -57,10 +57,10 @@ export default function Footer() {
               Sosial
             </h4>
             <div className="flex items-center gap-3">
-              <Link href="#" className="text-gray-400 hover:text-gray-600">
+              <Link href="#" className="text-gray-400 hover:text-gray-600" aria-label="Instagram">
                 <Icon icon="mdi:instagram" className="text-xl" />
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-gray-600">
+              <Link href="#" className="text-gray-400 hover:text-gray-600" aria-label="Bagikan">
                 <Icon icon="mdi:share-variant" className="text-xl" />
               </Link>
             </div>

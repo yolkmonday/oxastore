@@ -81,6 +81,8 @@ export default function Header() {
         <button
           className="md:hidden p-2"
           onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+          aria-expanded={menuOpen}
         >
           <Icon
             icon={menuOpen ? "mdi:close" : "mdi:menu"}
