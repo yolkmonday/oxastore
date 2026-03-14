@@ -94,3 +94,18 @@ export interface OrderItem {
   book_price: number;
   quantity: number;
 }
+
+export type PostStatus = "draft" | "published";
+
+export interface Post {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  content: string | null;
+  thumbnail: string | null;
+  status: PostStatus;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
