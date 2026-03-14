@@ -8,8 +8,9 @@ import { useCart } from "@/context/CartContext";
 import Badge from "@/components/ui/Badge";
 import SearchBar from "@/components/ui/SearchBar";
 import Button from "@/components/ui/Button";
+import UserNav from "@/components/layout/UserNav";
 
-export default function Header() {
+export default function Header({ userEmail }: { userEmail?: string | null }) {
   const { getCartCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const count = getCartCount();
@@ -72,10 +73,18 @@ export default function Header() {
               </Badge>
             )}
           </Link>
-          <Button variant="ghost">Masuk</Button>
-          <Button variant="dark" size="sm">
-            Daftar
-          </Button>
+          {userEmail ? (
+            <UserNav email={userEmail} />
+          ) : (
+            <>
+              <Link href="/masuk">
+                <Button variant="ghost">Masuk</Button>
+              </Link>
+              <Link href="/masuk">
+                <Button variant="dark" size="sm">Daftar</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -125,10 +134,18 @@ export default function Header() {
                 </Badge>
               )}
             </Link>
-            <Button variant="ghost">Masuk</Button>
-            <Button variant="dark" size="sm">
-              Daftar
-            </Button>
+            {userEmail ? (
+              <UserNav email={userEmail} />
+            ) : (
+              <>
+                <Link href="/masuk">
+                  <Button variant="ghost">Masuk</Button>
+                </Link>
+                <Link href="/masuk">
+                  <Button variant="dark" size="sm">Daftar</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
