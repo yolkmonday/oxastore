@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getPostBySlug } from "@/data/posts";
-import PostContent from "@/components/blog/PostContent";
+import PostContentWrapper from "@/components/blog/PostContentWrapper";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }: Props) {
       </p>
 
       {post.content ? (
-        <PostContent html={post.content} />
+        <PostContentWrapper html={post.content} />
       ) : (
         <p className="text-gray-400">Konten belum tersedia.</p>
       )}
