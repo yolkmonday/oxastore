@@ -81,6 +81,8 @@ export async function createPostAction(
     return { error: "Gagal menyimpan post: " + error.message };
   }
 
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${parsed.data.slug}`);
   redirect("/admin/blog");
 }
 
@@ -105,6 +107,12 @@ export async function updatePostAction(
 
   const supabase = createSupabaseClient();
 
+  const { data: existingPost } = await supabase
+    .from("posts")
+    .select("published_at, thumbnail")
+    .eq("id", id)
+    .single();
+
   const updateData: Record<string, unknown> = {
     slug: parsed.data.slug,
     title: parsed.data.title,
@@ -114,16 +122,8 @@ export async function updatePostAction(
     updated_at: new Date().toISOString(),
   };
 
-  // Set published_at when transitioning to published (only if not already set)
-  if (parsed.data.status === "published") {
-    const { data: existing } = await supabase
-      .from("posts")
-      .select("published_at")
-      .eq("id", id)
-      .single();
-    if (!existing?.published_at) {
-      updateData.published_at = new Date().toISOString();
-    }
+  if (parsed.data.status === "published" && !existingPost?.published_at) {
+    updateData.published_at = new Date().toISOString();
   }
 
   const thumbnailFile = formData.get("thumbnail") as File | null;
@@ -141,14 +141,8 @@ export async function updatePostAction(
       .getPublicUrl(filename);
     updateData.thumbnail = urlData.publicUrl;
 
-    // Delete old thumbnail
-    const { data: oldPost } = await supabase
-      .from("posts")
-      .select("thumbnail")
-      .eq("id", id)
-      .single();
-    if (oldPost?.thumbnail) {
-      const oldPath = extractStoragePath(oldPost.thumbnail);
+    if (existingPost?.thumbnail) {
+      const oldPath = extractStoragePath(existingPost.thumbnail);
       if (oldPath) {
         await supabase.storage.from("blog-thumbnails").remove([oldPath]);
       }
