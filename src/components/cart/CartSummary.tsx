@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useCart } from "@/context/CartContext";
 import { formatCurrency } from "@/lib/utils";
@@ -38,10 +39,12 @@ export default function CartSummary() {
         </div>
       </div>
 
-      <Button variant="dark" className="w-full" size="lg">
-        Checkout Sekarang
-        <Icon icon="mdi:arrow-right" className="text-lg" />
-      </Button>
+      <Link href="/checkout">
+        <Button variant="dark" className="w-full" size="lg">
+          Checkout Sekarang
+          <Icon icon="mdi:arrow-right" className="text-lg" />
+        </Button>
+      </Link>
 
       <div className="flex items-center justify-center gap-1.5 mt-4">
         <Icon icon="mdi:lock-outline" className="text-xs text-gray-400" />
