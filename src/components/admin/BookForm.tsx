@@ -15,6 +15,13 @@ interface BookFormProps {
     is_bestseller?: boolean;
     discount?: number | null;
     cover_image?: string | null;
+    description?: string;
+    pages?: number | null;
+    language?: string;
+    width?: number | null;
+    length?: number | null;
+    weight?: number | null;
+    publisher?: string;
   };
   submitLabel?: string;
 }
@@ -57,12 +64,12 @@ export default function BookForm({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Harga (USD) <span className="text-red-500">*</span>
+            Harga (Rp) <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
             name="price"
-            step="0.01"
+            step="1"
             min="0"
             required
             defaultValue={defaultValues.price}
@@ -109,6 +116,97 @@ export default function BookForm({
           max="100"
           defaultValue={defaultValues.discount ?? ""}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Penerbit
+        </label>
+        <input
+          type="text"
+          name="publisher"
+          defaultValue={defaultValues.publisher ?? ""}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Bahasa
+        </label>
+        <input
+          type="text"
+          name="language"
+          defaultValue={defaultValues.language ?? ""}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Jumlah Halaman
+        </label>
+        <input
+          type="number"
+          name="pages"
+          min="1"
+          defaultValue={defaultValues.pages ?? ""}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Panjang (cm)
+          </label>
+          <input
+            type="number"
+            name="length"
+            step="0.1"
+            min="0"
+            defaultValue={defaultValues.length ?? ""}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Lebar (cm)
+          </label>
+          <input
+            type="number"
+            name="width"
+            step="0.1"
+            min="0"
+            defaultValue={defaultValues.width ?? ""}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Berat (gram)
+          </label>
+          <input
+            type="number"
+            name="weight"
+            step="0.1"
+            min="0"
+            defaultValue={defaultValues.weight ?? ""}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Deskripsi
+        </label>
+        <textarea
+          name="description"
+          rows={4}
+          defaultValue={defaultValues.description ?? ""}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
         />
       </div>
 

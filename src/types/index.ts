@@ -10,6 +10,13 @@ export interface Book {
   category: Category;
   discount?: number;
   isBestSeller?: boolean;
+  description?: string;
+  pages?: number;
+  language?: string;
+  width?: number;
+  length?: number;
+  weight?: number;
+  publisher?: string;
 }
 
 export interface CartItem {

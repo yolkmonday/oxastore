@@ -34,6 +34,13 @@ export default async function EditBookPage({
           is_bestseller: book.is_bestseller,
           discount: book.discount,
           cover_image: book.cover_image,
+          description: book.description,
+          pages: book.pages,
+          language: book.language,
+          width: book.width,
+          length: book.length,
+          weight: book.weight,
+          publisher: book.publisher,
         }}
         submitLabel="Simpan Perubahan"
       />

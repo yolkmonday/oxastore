@@ -12,6 +12,13 @@ function mapRow(row: Record<string, unknown>): Book {
     category: row.category as Category,
     isBestSeller: row.is_bestseller as boolean,
     discount: (row.discount as number | null) ?? undefined,
+    description: row.description as string | undefined,
+    pages: (row.pages as number | null) ?? undefined,
+    language: row.language as string | undefined,
+    width: (row.width as number | null) ?? undefined,
+    length: (row.length as number | null) ?? undefined,
+    weight: (row.weight as number | null) ?? undefined,
+    publisher: row.publisher as string | undefined,
   };
 }
 

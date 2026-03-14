@@ -23,6 +23,13 @@ const bookSchema = z.object({
   category: z.enum(["popular", "new", "upcoming"]),
   is_bestseller: z.coerce.boolean().optional().default(false),
   discount: z.coerce.number().int().min(0).max(100).optional().nullable(),
+  description: z.string().optional(),
+  pages: z.coerce.number().int().positive().optional().nullable(),
+  language: z.string().optional(),
+  width: z.coerce.number().positive().optional().nullable(),
+  length: z.coerce.number().positive().optional().nullable(),
+  weight: z.coerce.number().positive().optional().nullable(),
+  publisher: z.string().optional(),
 });
 
 export async function createBookAction(
@@ -39,6 +46,13 @@ export async function createBookAction(
     category: formData.get("category"),
     is_bestseller: formData.get("is_bestseller") === "on",
     discount: formData.get("discount") || null,
+    description: formData.get("description") || undefined,
+    pages: formData.get("pages") || null,
+    language: formData.get("language") || undefined,
+    width: formData.get("width") || null,
+    length: formData.get("length") || null,
+    weight: formData.get("weight") || null,
+    publisher: formData.get("publisher") || undefined,
   });
 
   if (!parsed.success) {
@@ -93,6 +107,13 @@ export async function updateBookAction(
     category: formData.get("category"),
     is_bestseller: formData.get("is_bestseller") === "on",
     discount: formData.get("discount") || null,
+    description: formData.get("description") || undefined,
+    pages: formData.get("pages") || null,
+    language: formData.get("language") || undefined,
+    width: formData.get("width") || null,
+    length: formData.get("length") || null,
+    weight: formData.get("weight") || null,
+    publisher: formData.get("publisher") || undefined,
   });
 
   if (!parsed.success) {

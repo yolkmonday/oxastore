@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createSupabaseClient } from "@/lib/supabase";
 import DeleteBookButton from "@/components/admin/DeleteBookButton";
+import { formatCurrency } from "@/lib/utils";
 
 export default async function AdminBooksPage() {
   const supabase = createSupabaseClient();
@@ -53,7 +54,7 @@ export default async function AdminBooksPage() {
                 <td className="px-4 py-3 text-gray-600">{book.author}</td>
                 <td className="px-4 py-3 text-gray-600">{book.category}</td>
                 <td className="px-4 py-3 text-gray-600">
-                  ${Number(book.price).toFixed(2)}
+                  {formatCurrency(Number(book.price))}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
