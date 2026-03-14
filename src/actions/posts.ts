@@ -109,7 +109,7 @@ export async function updatePostAction(
 
   const { data: existingPost } = await supabase
     .from("posts")
-    .select("published_at, thumbnail")
+    .select("published_at, thumbnail, slug")
     .eq("id", id)
     .single();
 
@@ -161,6 +161,10 @@ export async function updatePostAction(
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${parsed.data.slug}`);
+  // Also revalidate old slug path if it changed
+  if (existingPost?.slug && existingPost.slug !== parsed.data.slug) {
+    revalidatePath(`/blog/${existingPost.slug}`);
+  }
   redirect("/admin/blog");
 }
 
