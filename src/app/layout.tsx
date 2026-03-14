@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="id" translate="no">
       <body className="antialiased">
         <CartProvider>
           <Header />
