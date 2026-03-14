@@ -22,6 +22,11 @@ const navItems = [
     label: "Slider",
   },
   {
+    href: "/admin/orders",
+    icon: "mdi:clipboard-list-outline",
+    label: "Pesanan",
+  },
+  {
     href: "/admin/settings",
     icon: "mdi:cog-outline",
     label: "Pengaturan",
