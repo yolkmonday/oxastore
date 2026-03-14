@@ -81,6 +81,35 @@ export async function createPostAction(
     return { error: "Gagal menyimpan post: " + error.message };
   }
 
+  // Save tags
+  const { data: newPost } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", parsed.data.slug)
+    .single();
+
+  if (newPost) {
+    const tagIdsRaw = formData.get("tagIds") as string | null;
+    const newTagNameVal = (formData.get("newTagName") as string | null)?.trim();
+    const tagIds = tagIdsRaw ? tagIdsRaw.split(",").filter(Boolean) : [];
+
+    if (newTagNameVal) {
+      const newTagSlug = newTagNameVal
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+      const { data: createdTag } = await supabase
+        .from("tags")
+        .upsert({ name: newTagNameVal, slug: newTagSlug }, { onConflict: "slug" })
+        .select("id")
+        .single();
+      if (createdTag) tagIds.push(createdTag.id);
+    }
+
+    const { upsertPostTags } = await import("@/data/tags");
+    await upsertPostTags(newPost.id, tagIds);
+  }
+
   revalidatePath("/blog");
   revalidatePath(`/blog/${parsed.data.slug}`);
   redirect("/admin/blog");
@@ -158,6 +187,27 @@ export async function updatePostAction(
   if (error) {
     return { error: "Gagal memperbarui post: " + error.message };
   }
+
+  // Save tags
+  const tagIdsRaw = formData.get("tagIds") as string | null;
+  const newTagNameVal = (formData.get("newTagName") as string | null)?.trim();
+  const tagIds = tagIdsRaw ? tagIdsRaw.split(",").filter(Boolean) : [];
+
+  if (newTagNameVal) {
+    const newTagSlug = newTagNameVal
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
+    const { data: createdTag } = await supabase
+      .from("tags")
+      .upsert({ name: newTagNameVal, slug: newTagSlug }, { onConflict: "slug" })
+      .select("id")
+      .single();
+    if (createdTag) tagIds.push(createdTag.id);
+  }
+
+  const { upsertPostTags } = await import("@/data/tags");
+  await upsertPostTags(id, tagIds);
 
   revalidatePath("/blog");
   revalidatePath(`/blog/${parsed.data.slug}`);
