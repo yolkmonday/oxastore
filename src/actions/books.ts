@@ -20,7 +20,7 @@ const bookSchema = z.object({
   author: z.string().min(1, "Penulis wajib diisi."),
   price: z.coerce.number().positive("Harga harus lebih dari 0."),
   year: z.coerce.number().int().min(1000).max(9999),
-  category: z.enum(["popular", "new", "upcoming"]),
+  category: z.string().min(1, "Kategori wajib dipilih."),
   is_bestseller: z.coerce.boolean().optional().default(false),
   discount: z.coerce.number().int().min(0).max(100).optional().nullable(),
   description: z.string().optional(),
@@ -31,6 +31,16 @@ const bookSchema = z.object({
   weight: z.coerce.number().positive().optional().nullable(),
   publisher: z.string().optional(),
 });
+
+function parseSlugAndTags(formData: FormData) {
+  const slug = (formData.get("slug") as string)?.trim() || null;
+  const tagsRaw = (formData.get("tags") as string) || "";
+  const tags = tagsRaw
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  return { slug, tags };
+}
 
 export async function createBookAction(
   _prevState: ActionResult | undefined,
@@ -59,6 +69,7 @@ export async function createBookAction(
     return { error: parsed.error.issues[0].message };
   }
 
+  const { slug, tags } = parseSlugAndTags(formData);
   const supabase = createSupabaseClient();
 
   let cover_image: string | null = null;
@@ -81,6 +92,8 @@ export async function createBookAction(
   const { error } = await supabase.from("books").insert({
     ...parsed.data,
     cover_image,
+    slug,
+    tags,
   });
 
   if (error) {
@@ -119,6 +132,8 @@ export async function updateBookAction(
   if (!parsed.success) {
     return { error: parsed.error.issues[0].message };
   }
+
+  const { slug, tags } = parseSlugAndTags(formData);
 
   // Fetch existing cover to delete if a new one is uploaded
   const { data: existingBook } = await supabase
@@ -159,6 +174,8 @@ export async function updateBookAction(
 
   const updateData: Record<string, unknown> = {
     ...parsed.data,
+    slug,
+    tags,
     updated_at: new Date().toISOString(),
   };
   if (cover_image !== undefined) {

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { getBookById } from "@/data/books";
+import { getBookBySlug } from "@/data/books";
 import { formatCurrency } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import AddToCartButton from "@/components/books/AddToCartButton";
@@ -10,12 +10,12 @@ import AddToCartButton from "@/components/books/AddToCartButton";
 export const dynamic = "force-dynamic";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export default async function BookDetailPage({ params }: Props) {
-  const { id } = await params;
-  const book = await getBookById(id);
+  const { slug } = await params;
+  const book = await getBookBySlug(slug);
 
   if (!book) notFound();
 
@@ -71,7 +71,7 @@ export default async function BookDetailPage({ params }: Props) {
           <h1 className="text-3xl font-bold text-gray-900 mb-1">{book.title}</h1>
           <p className="text-gray-500 mb-4">oleh {book.author}</p>
 
-          <div className="flex items-baseline gap-3 mb-6">
+          <div className="flex items-baseline gap-3 mb-4">
             <span className="text-2xl font-bold text-gray-900">
               {formatCurrency(discountedPrice ?? book.price)}
             </span>
@@ -81,6 +81,19 @@ export default async function BookDetailPage({ params }: Props) {
               </span>
             )}
           </div>
+
+          {book.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {book.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-orange-50 text-orange-700 text-xs font-medium px-2.5 py-1 rounded-full border border-orange-200"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
 
           {book.description && (
             <div className="mb-8">

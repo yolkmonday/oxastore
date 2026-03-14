@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
 import Link from "next/link";
 import { ActionResult } from "@/actions/books";
+import { Category } from "@/types";
 
 interface BookFormProps {
   action: (_prevState: ActionResult | undefined, formData: FormData) => Promise<ActionResult>;
+  categories: Category[];
   defaultValues?: {
     title?: string;
     author?: string;
@@ -22,16 +25,38 @@ interface BookFormProps {
     length?: number | null;
     weight?: number | null;
     publisher?: string;
+    slug?: string | null;
+    tags?: string[];
   };
   submitLabel?: string;
 }
 
+function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
 export default function BookForm({
   action,
+  categories,
   defaultValues = {},
   submitLabel = "Simpan",
 }: BookFormProps) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  const [slugValue, setSlugValue] = useState(defaultValues.slug ?? "");
+  const [titleValue, setTitleValue] = useState(defaultValues.title ?? "");
+
+  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const newTitle = e.target.value;
+    setTitleValue(newTitle);
+    if (!slugValue || slugValue === slugify(titleValue)) {
+      setSlugValue(slugify(newTitle));
+    }
+  }
 
   return (
     <form action={formAction} className="flex flex-col gap-5 max-w-xl">
@@ -43,9 +68,28 @@ export default function BookForm({
           type="text"
           name="title"
           required
-          defaultValue={defaultValues.title}
+          value={titleValue}
+          onChange={handleTitleChange}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Slug URL
+          <span className="text-gray-400 font-normal ml-1">(opsional, auto-generate dari judul)</span>
+        </label>
+        <div className="flex items-center rounded-lg border border-gray-300 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500">
+          <span className="px-3 py-2 text-sm text-gray-400 bg-gray-50 border-r border-gray-300">/books/</span>
+          <input
+            type="text"
+            name="slug"
+            value={slugValue}
+            onChange={(e) => setSlugValue(e.target.value)}
+            placeholder="judul-buku-anda"
+            className="flex-1 px-3 py-2 text-sm focus:outline-none"
+          />
+        </div>
       </div>
 
       <div>
@@ -96,13 +140,31 @@ export default function BookForm({
         </label>
         <select
           name="category"
-          defaultValue={defaultValues.category ?? "popular"}
+          defaultValue={defaultValues.category ?? ""}
+          required
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
         >
-          <option value="popular">Popular</option>
-          <option value="new">New</option>
-          <option value="upcoming">Upcoming</option>
+          <option value="" disabled>Pilih kategori...</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.slug}>
+              {cat.name}
+            </option>
+          ))}
         </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Tags
+          <span className="text-gray-400 font-normal ml-1">(pisahkan dengan koma)</span>
+        </label>
+        <input
+          type="text"
+          name="tags"
+          defaultValue={defaultValues.tags?.join(", ") ?? ""}
+          placeholder="fiksi, novel, bestseller"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+        />
       </div>
 
       <div>

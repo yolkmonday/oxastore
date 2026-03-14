@@ -10,7 +10,7 @@ interface BestSellerCardProps {
 
 export default function BestSellerCard({ book }: BestSellerCardProps) {
   return (
-    <Link href={`/books/${book.id}`} className="group block">
+    <Link href={`/books/${book.slug || book.id}`} className="group block">
       <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-3 aspect-[3/4]">
         {book.discount && (
           <Badge

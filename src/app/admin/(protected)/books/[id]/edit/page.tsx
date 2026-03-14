@@ -10,11 +10,11 @@ export default async function EditBookPage({
 }) {
   const { id } = await params;
   const supabase = createSupabaseClient();
-  const { data: book } = await supabase
-    .from("books")
-    .select("*")
-    .eq("id", id)
-    .single();
+
+  const [{ data: book }, { data: categories }] = await Promise.all([
+    supabase.from("books").select("*").eq("id", id).single(),
+    supabase.from("categories").select("*").order("created_at", { ascending: true }),
+  ]);
 
   if (!book) notFound();
 
@@ -25,6 +25,7 @@ export default async function EditBookPage({
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Buku</h1>
       <BookForm
         action={action}
+        categories={categories ?? []}
         defaultValues={{
           title: book.title,
           author: book.author,
@@ -41,6 +42,8 @@ export default async function EditBookPage({
           length: book.length,
           weight: book.weight,
           publisher: book.publisher,
+          slug: book.slug,
+          tags: book.tags ?? [],
         }}
         submitLabel="Simpan Perubahan"
       />

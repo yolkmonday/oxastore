@@ -26,6 +26,12 @@ export default async function AdminLayout({
             Buku
           </Link>
           <Link
+            href="/admin/categories"
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Kategori
+          </Link>
+          <Link
             href="/admin/settings"
             className="text-sm text-gray-600 hover:text-gray-900"
           >

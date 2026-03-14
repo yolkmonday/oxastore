@@ -1,13 +1,19 @@
-export type Category = "popular" | "new" | "upcoming";
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 export interface Book {
   id: string;
+  slug: string;
   title: string;
   author: string;
   price: number;
   year: number;
   coverImage: string;
-  category: Category;
+  category: string;
+  tags: string[];
   discount?: number;
   isBestSeller?: boolean;
   description?: string;
