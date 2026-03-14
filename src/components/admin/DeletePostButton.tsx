@@ -5,7 +5,11 @@ import { deletePostAction } from "@/actions/posts";
 export default function DeletePostButton({ id }: { id: string }) {
   async function handleDelete() {
     if (!confirm("Hapus post ini? Tindakan tidak bisa dibatalkan.")) return;
-    await deletePostAction(id);
+    try {
+      await deletePostAction(id);
+    } catch {
+      alert("Gagal menghapus post. Silakan coba lagi.");
+    }
   }
 
   return (
