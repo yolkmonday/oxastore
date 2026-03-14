@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import slugify from "slugify";
 import "react-quill-new/dist/quill.snow.css";
 import type { ActionResult } from "@/actions/books";
-import type { Post } from "@/types";
+import type { Post, Tag } from "@/types";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -26,12 +26,14 @@ interface PostFormProps {
   action: (_prevState: ActionResult | undefined, formData: FormData) => Promise<ActionResult>;
   defaultValues?: Partial<Post>;
   submitLabel?: string;
+  allTags?: Tag[];
 }
 
 export default function PostForm({
   action,
   defaultValues = {},
   submitLabel = "Simpan",
+  allTags = [],
 }: PostFormProps) {
   const [state, formAction, pending] = useActionState(action, undefined);
   const [title, setTitle] = useState(defaultValues.title ?? "");
@@ -42,6 +44,10 @@ export default function PostForm({
   const [status, setStatus] = useState<"draft" | "published">(
     defaultValues.status ?? "draft"
   );
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>(
+    defaultValues.tags?.map((t) => t.id) ?? []
+  );
+  const [newTagName, setNewTagName] = useState("");
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
@@ -195,6 +201,50 @@ export default function PostForm({
             Published
           </button>
         </div>
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+        {allTags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-3">
+            {allTags.map((tag) => {
+              const active = selectedTagIds.includes(tag.id);
+              return (
+                <button
+                  key={tag.id}
+                  type="button"
+                  onClick={() =>
+                    setSelectedTagIds((prev) =>
+                      active ? prev.filter((id) => id !== tag.id) : [...prev, tag.id]
+                    )
+                  }
+                  className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
+                    active
+                      ? "bg-brand-500 text-white border-brand-500"
+                      : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                  }`}
+                >
+                  {tag.name}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newTagName}
+            onChange={(e) => setNewTagName(e.target.value)}
+            placeholder="Buat tag baru..."
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <input type="hidden" name="newTagName" value={newTagName} />
+        </div>
+        <p className="text-xs text-gray-400 mt-1">
+          Tulis nama tag baru dan klik Simpan — tag akan dibuat otomatis.
+        </p>
+        <input type="hidden" name="tagIds" value={selectedTagIds.join(",")} />
       </div>
 
       {state?.error && (
