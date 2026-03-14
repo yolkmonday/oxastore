@@ -3,6 +3,8 @@ import Image from "next/image";
 import { getPostBySlug } from "@/data/posts";
 import PostContentWrapper from "@/components/blog/PostContentWrapper";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
