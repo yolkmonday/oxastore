@@ -1,0 +1,42 @@
+import { notFound } from "next/navigation";
+import { createSupabaseClient } from "@/lib/supabase";
+import BookForm from "@/components/admin/BookForm";
+import { updateBookAction } from "@/actions/books";
+
+export default async function EditBookPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const supabase = createSupabaseClient();
+  const { data: book } = await supabase
+    .from("books")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (!book) notFound();
+
+  const action = updateBookAction.bind(null, id);
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Buku</h1>
+      <BookForm
+        action={action}
+        defaultValues={{
+          title: book.title,
+          author: book.author,
+          price: book.price,
+          year: book.year,
+          category: book.category,
+          is_bestseller: book.is_bestseller,
+          discount: book.discount,
+          cover_image: book.cover_image,
+        }}
+        submitLabel="Simpan Perubahan"
+      />
+    </div>
+  );
+}
