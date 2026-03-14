@@ -42,7 +42,7 @@ export default async function BookDetailPage({ params }: Props) {
                 variant="discount"
                 className="absolute top-2 left-2 z-10"
               >
-                {book.discount}% OFF
+                {book.discount}% DISKON
               </Badge>
             )}
             {book.isBestSeller && (

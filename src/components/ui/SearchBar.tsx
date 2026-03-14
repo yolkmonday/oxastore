@@ -11,7 +11,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  placeholder = "find your book...",
+  placeholder = "Cari buku...",
   value,
   onChange,
   className,

@@ -9,7 +9,7 @@ export default function BookGrid({ books }: BookGridProps) {
   if (books.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No books found.</p>
+        <p className="text-gray-500">Tidak ada buku ditemukan.</p>
       </div>
     );
   }

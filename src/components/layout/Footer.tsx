@@ -18,17 +18,17 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Company
+              Perusahaan
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  About Us
+                  Tentang Kami
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Contact
+                  Kontak
                 </Link>
               </li>
             </ul>
@@ -36,17 +36,17 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Support
+              Dukungan
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Terms
+                  Syarat & Ketentuan
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Privacy
+                  Kebijakan Privasi
                 </Link>
               </li>
             </ul>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Social
+              Sosial
             </h4>
             <div className="flex items-center gap-3">
               <Link href="#" className="text-gray-400 hover:text-gray-600">

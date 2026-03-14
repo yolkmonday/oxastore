@@ -14,7 +14,7 @@ export default function CartSummary() {
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Summary.</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">Ringkasan.</h2>
 
       <div className="space-y-3 mb-6">
         <div className="flex items-center justify-between">
@@ -24,8 +24,8 @@ export default function CartSummary() {
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-blue-600">Shipping</span>
-          <Badge variant="free">FREE</Badge>
+          <span className="text-sm text-blue-600">Pengiriman</span>
+          <Badge variant="free">GRATIS</Badge>
         </div>
       </div>
 
@@ -39,14 +39,14 @@ export default function CartSummary() {
       </div>
 
       <Button variant="dark" className="w-full" size="lg">
-        Checkout Now
+        Checkout Sekarang
         <Icon icon="mdi:arrow-right" className="text-lg" />
       </Button>
 
       <div className="flex items-center justify-center gap-1.5 mt-4">
         <Icon icon="mdi:lock-outline" className="text-xs text-gray-400" />
         <p className="text-xs text-gray-400 uppercase tracking-wider">
-          Encrypted Secure Payment
+          Pembayaran Aman Terenkripsi
         </p>
       </div>
     </div>

@@ -25,6 +25,16 @@ export interface Book {
   publisher?: string;
 }
 
+export interface Slider {
+  id: string;
+  title: string | null;
+  subtitle: string | null;
+  image: string;
+  link: string | null;
+  sortOrder: number;
+  isActive: boolean;
+}
+
 export interface CartItem {
   book: Book;
   quantity: number;

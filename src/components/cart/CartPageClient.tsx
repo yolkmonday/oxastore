@@ -15,9 +15,9 @@ export default function CartPageClient({
 }) {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold text-gray-900 mb-2">Your Cart.</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-2">Keranjang Anda.</h1>
       <p className="text-gray-500 mb-10">
-        Review your curated selection before checkout.
+        Tinjau pilihan Anda sebelum checkout.
       </p>
 
       <div className="lg:flex lg:gap-12 mb-12">
@@ -30,7 +30,7 @@ export default function CartPageClient({
               className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900"
             >
               <Icon icon="mdi:arrow-left" className="text-base" />
-              BACK TO LIBRARY
+              KEMBALI KE KOLEKSI
             </Link>
 
             <FreeShippingBanner />
@@ -45,13 +45,13 @@ export default function CartPageClient({
       <section className="mt-16">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-gray-900">
-            Our Best Sellers.
+            Best Seller Kami.
           </h2>
           <Link
             href="/books"
             className="text-sm text-blue-600 hover:text-blue-800 font-medium"
           >
-            View all books
+            Lihat semua buku
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">

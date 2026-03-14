@@ -27,7 +27,7 @@ export default function Header() {
               href="#"
               className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
             >
-              About
+              Tentang
             </Link>
           </li>
           <li>
@@ -35,7 +35,7 @@ export default function Header() {
               href="/books"
               className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Book
+              Buku
             </Link>
           </li>
           <li>
@@ -43,7 +43,7 @@ export default function Header() {
               href="/books?tab=popular"
               className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Popular
+              Populer
             </Link>
           </li>
           <li>
@@ -51,7 +51,7 @@ export default function Header() {
               href="#"
               className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Help
+              Bantuan
             </Link>
           </li>
         </ul>
@@ -72,9 +72,9 @@ export default function Header() {
               </Badge>
             )}
           </Link>
-          <Button variant="ghost">Login</Button>
+          <Button variant="ghost">Masuk</Button>
           <Button variant="dark" size="sm">
-            Free Trial
+            Daftar
           </Button>
         </div>
 
@@ -95,22 +95,22 @@ export default function Header() {
           <ul className="space-y-3">
             <li>
               <Link href="#" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                About
+                Tentang
               </Link>
             </li>
             <li>
               <Link href="/books" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Book
+                Buku
               </Link>
             </li>
             <li>
               <Link href="/books?tab=popular" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Popular
+                Populer
               </Link>
             </li>
             <li>
               <Link href="#" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Help
+                Bantuan
               </Link>
             </li>
           </ul>
@@ -123,9 +123,9 @@ export default function Header() {
                 </Badge>
               )}
             </Link>
-            <Button variant="ghost">Login</Button>
+            <Button variant="ghost">Masuk</Button>
             <Button variant="dark" size="sm">
-              Free Trial
+              Daftar
             </Button>
           </div>
         </div>

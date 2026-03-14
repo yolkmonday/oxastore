@@ -34,7 +34,7 @@ export default function CartItem({ item }: CartItemProps) {
             className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 mt-1 cursor-pointer"
           >
             <Icon icon="mdi:delete-outline" className="text-sm" />
-            REMOVE
+            HAPUS
           </button>
         </div>
       </div>

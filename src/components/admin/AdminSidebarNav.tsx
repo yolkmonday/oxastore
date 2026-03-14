@@ -17,6 +17,11 @@ const navItems = [
     label: "Kategori",
   },
   {
+    href: "/admin/sliders",
+    icon: "mdi:image-multiple-outline",
+    label: "Slider",
+  },
+  {
     href: "/admin/settings",
     icon: "mdi:cog-outline",
     label: "Pengaturan",
@@ -29,9 +34,7 @@ export default function AdminSidebarNav() {
   return (
     <nav className="flex-1 px-3 pt-2">
       {navItems.map((item) => {
-        const isActive = item.exact
-          ? pathname === item.href
-          : pathname.startsWith(item.href);
+        const isActive = pathname.startsWith(item.href);
 
         return (
           <Link

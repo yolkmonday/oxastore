@@ -9,12 +9,16 @@ import { cn } from "@/lib/utils";
 export default function BooksBrowserClient({
   books,
   categories,
+  initialSearch = "",
+  initialTab = "all",
 }: {
   books: Book[];
   categories: Category[];
+  initialSearch?: string;
+  initialTab?: string;
 }) {
-  const [activeTab, setActiveTab] = useState<string>("all");
-  const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
+  const [search, setSearch] = useState(initialSearch);
 
   const filteredBooks = books.filter((book) => {
     const matchesTab = activeTab === "all" || book.category === activeTab;
