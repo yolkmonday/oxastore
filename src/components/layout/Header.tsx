@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useCart } from "@/context/CartContext";
@@ -16,9 +17,8 @@ export default function Header() {
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-1">
-          <span className="text-brand-500 text-xl">*</span>
-          <span className="text-xl font-bold text-gray-900">OXA Store</span>
+        <Link href="/">
+          <Image src="/oxa-logo.png" alt="OXA Matter" height={32} width={160} className="h-8 w-auto" priority />
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">

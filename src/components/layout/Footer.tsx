@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 
 export default function Footer() {
@@ -7,9 +8,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-1 mb-3">
-              <span className="text-brand-500">*</span>
-              <span className="font-bold text-gray-900">OXA Store</span>
+            <div className="mb-3">
+              <Image src="/oxa-logo.png" alt="OXA Matter" height={28} width={140} className="h-7 w-auto grayscale opacity-40" />
             </div>
             <p className="text-sm text-gray-500">
               &copy; 2024 PT OXA Matter Indonesia. Toko buku & penerbit.

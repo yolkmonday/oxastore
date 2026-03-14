@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { getSession } from "@/lib/session";
 import { logoutAction } from "@/actions/auth";
 import AdminSidebarNav from "@/components/admin/AdminSidebarNav";
@@ -20,13 +21,8 @@ export default async function AdminLayout({
       <aside className="w-60 flex-shrink-0 bg-[#16182a] flex flex-col fixed inset-y-0 left-0 z-40">
         {/* Logo */}
         <div className="px-5 py-5 border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <span className="text-brand-400 text-lg leading-none select-none">✿</span>
-            <div>
-              <p className="text-white font-bold text-sm leading-tight">OXA Store</p>
-              <p className="text-slate-500 text-xs">admin panel</p>
-            </div>
-          </div>
+          <Image src="/oxa-logo.png" alt="OXA Matter" height={28} width={140} className="h-7 w-auto brightness-200" priority />
+          <p className="text-slate-500 text-xs mt-1">admin panel</p>
         </div>
 
         {/* Nav */}
