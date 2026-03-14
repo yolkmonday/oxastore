@@ -44,6 +44,7 @@ export default async function EditBookPage({
           publisher: book.publisher,
           slug: book.slug,
           tags: book.tags ?? [],
+          marketplaceLinks: book.marketplace_links ?? [],
         }}
         submitLabel="Simpan Perubahan"
       />

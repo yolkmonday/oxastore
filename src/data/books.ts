@@ -21,6 +21,7 @@ function mapRow(row: Record<string, unknown>): Book {
     length: (row.length as number | null) ?? undefined,
     weight: (row.weight as number | null) ?? undefined,
     publisher: row.publisher as string | undefined,
+    marketplaceLinks: (row.marketplace_links as import("@/types").MarketplaceLink[] | null) ?? undefined,
   };
 }
 

@@ -4,6 +4,20 @@ export interface Category {
   slug: string;
 }
 
+export type MarketplaceType =
+  | "shopee"
+  | "tokopedia"
+  | "lazada"
+  | "bukalapak"
+  | "blibli"
+  | "amazon"
+  | "website";
+
+export interface MarketplaceLink {
+  type: MarketplaceType;
+  link: string;
+}
+
 export interface Book {
   id: string;
   slug: string;
@@ -23,6 +37,7 @@ export interface Book {
   length?: number;
   weight?: number;
   publisher?: string;
+  marketplaceLinks?: MarketplaceLink[];
 }
 
 export interface Slider {

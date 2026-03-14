@@ -106,6 +106,43 @@ export default async function BookDetailPage({ params }: Props) {
             </div>
           )}
 
+          {/* Marketplace Links */}
+          {book.marketplaceLinks && book.marketplaceLinks.length > 0 && (
+            <div className="mb-6">
+              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">
+                Beli di Marketplace
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {book.marketplaceLinks.map((mp, i) => (
+                  <a
+                    key={i}
+                    href={mp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-brand-400 hover:text-brand-600 transition-colors bg-white"
+                  >
+                    {mp.type === "shopee" && <Icon icon="simple-icons:shopee" className="text-base text-orange-500" />}
+                    {mp.type === "tokopedia" && <Icon icon="simple-icons:tokopedia" className="text-base text-green-500" />}
+                    {mp.type === "lazada" && <Icon icon="simple-icons:lazada" className="text-base text-blue-500" />}
+                    {mp.type === "bukalapak" && <Icon icon="simple-icons:bukalapak" className="text-base text-red-500" />}
+                    {mp.type === "blibli" && <Icon icon="simple-icons:blibli" className="text-base text-blue-400" />}
+                    {mp.type === "amazon" && <Icon icon="simple-icons:amazon" className="text-base text-yellow-500" />}
+                    {mp.type === "website" && <Icon icon="mdi:web" className="text-base text-gray-500" />}
+                    {{
+                      shopee: "Shopee",
+                      tokopedia: "Tokopedia",
+                      lazada: "Lazada",
+                      bukalapak: "Bukalapak",
+                      blibli: "Blibli",
+                      amazon: "Amazon",
+                      website: "Website Resmi",
+                    }[mp.type]}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Metadata grid */}
           <div className="border-t border-gray-100 pt-6">
             <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">

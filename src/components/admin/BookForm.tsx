@@ -4,7 +4,17 @@ import { useState } from "react";
 import { useActionState } from "react";
 import Link from "next/link";
 import { ActionResult } from "@/actions/books";
-import { Category } from "@/types";
+import { Category, MarketplaceLink, MarketplaceType } from "@/types";
+
+const MARKETPLACE_OPTIONS: { value: MarketplaceType; label: string }[] = [
+  { value: "shopee", label: "Shopee" },
+  { value: "tokopedia", label: "Tokopedia" },
+  { value: "lazada", label: "Lazada" },
+  { value: "bukalapak", label: "Bukalapak" },
+  { value: "blibli", label: "Blibli" },
+  { value: "amazon", label: "Amazon" },
+  { value: "website", label: "Website Resmi" },
+];
 
 interface BookFormProps {
   action: (_prevState: ActionResult | undefined, formData: FormData) => Promise<ActionResult>;
@@ -27,6 +37,7 @@ interface BookFormProps {
     publisher?: string;
     slug?: string | null;
     tags?: string[];
+    marketplaceLinks?: MarketplaceLink[];
   };
   submitLabel?: string;
 }
@@ -49,6 +60,9 @@ export default function BookForm({
   const [state, formAction, pending] = useActionState(action, undefined);
   const [slugValue, setSlugValue] = useState(defaultValues.slug ?? "");
   const [titleValue, setTitleValue] = useState(defaultValues.title ?? "");
+  const [marketplaceLinks, setMarketplaceLinks] = useState<MarketplaceLink[]>(
+    defaultValues.marketplaceLinks ?? []
+  );
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newTitle = e.target.value;
@@ -306,6 +320,59 @@ export default function BookForm({
             Biarkan kosong untuk mempertahankan cover saat ini.
           </p>
         )}
+      </div>
+
+      {/* Marketplace Links */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Link Marketplace
+        </label>
+        <input type="hidden" name="marketplace_links" value={JSON.stringify(marketplaceLinks)} />
+        <div className="flex flex-col gap-2">
+          {marketplaceLinks.map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <select
+                value={item.type}
+                onChange={(e) => {
+                  const updated = [...marketplaceLinks];
+                  updated[i] = { ...updated[i], type: e.target.value as MarketplaceType };
+                  setMarketplaceLinks(updated);
+                }}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-40"
+              >
+                {MARKETPLACE_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+              <input
+                type="url"
+                placeholder="https://..."
+                value={item.link}
+                onChange={(e) => {
+                  const updated = [...marketplaceLinks];
+                  updated[i] = { ...updated[i], link: e.target.value };
+                  setMarketplaceLinks(updated);
+                }}
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+              <button
+                type="button"
+                onClick={() => setMarketplaceLinks(marketplaceLinks.filter((_, idx) => idx !== i))}
+                className="text-gray-400 hover:text-red-500 text-lg leading-none px-1"
+                aria-label="Hapus"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setMarketplaceLinks([...marketplaceLinks, { type: "shopee", link: "" }])}
+          className="mt-2 text-sm text-brand-600 hover:text-brand-700 font-medium"
+        >
+          + Tambah marketplace
+        </button>
       </div>
 
       {state?.error && (

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createSupabaseClient } from "@/lib/supabase";
 import { getSession } from "@/lib/session";
@@ -39,7 +40,14 @@ function parseSlugAndTags(formData: FormData) {
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
-  return { slug, tags };
+  const marketplaceLinksRaw = (formData.get("marketplace_links") as string) || "[]";
+  let marketplace_links = [];
+  try {
+    marketplace_links = JSON.parse(marketplaceLinksRaw);
+  } catch {
+    marketplace_links = [];
+  }
+  return { slug, tags, marketplace_links };
 }
 
 export async function createBookAction(
@@ -69,7 +77,7 @@ export async function createBookAction(
     return { error: parsed.error.issues[0].message };
   }
 
-  const { slug, tags } = parseSlugAndTags(formData);
+  const { slug, tags, marketplace_links } = parseSlugAndTags(formData);
   const supabase = createSupabaseClient();
 
   let cover_image: string | null = null;
@@ -94,6 +102,7 @@ export async function createBookAction(
     cover_image,
     slug,
     tags,
+    marketplace_links,
   });
 
   if (error) {
@@ -133,7 +142,7 @@ export async function updateBookAction(
     return { error: parsed.error.issues[0].message };
   }
 
-  const { slug, tags } = parseSlugAndTags(formData);
+  const { slug, tags, marketplace_links } = parseSlugAndTags(formData);
 
   // Fetch existing cover to delete if a new one is uploaded
   const { data: existingBook } = await supabase
@@ -176,6 +185,7 @@ export async function updateBookAction(
     ...parsed.data,
     slug,
     tags,
+    marketplace_links,
     updated_at: new Date().toISOString(),
   };
   if (cover_image !== undefined) {
@@ -192,6 +202,39 @@ export async function updateBookAction(
   }
 
   redirect("/admin/books");
+}
+
+export async function bulkDeleteBooksAction(ids: string[]): Promise<ActionResult> {
+  await requireAdmin();
+  if (!ids.length) return {};
+  const supabase = createSupabaseClient();
+
+  const { data: books } = await supabase
+    .from("books")
+    .select("cover_image")
+    .in("id", ids);
+
+  if (books) {
+    const filenames = books
+      .flatMap((b) => {
+        if (!b.cover_image) return [];
+        try {
+          const parts = new URL(b.cover_image).pathname.split("/book-covers/");
+          return parts.length === 2 ? [parts[1]] : [];
+        } catch {
+          return [];
+        }
+      });
+    if (filenames.length) {
+      await supabase.storage.from("book-covers").remove(filenames);
+    }
+  }
+
+  const { error } = await supabase.from("books").delete().in("id", ids);
+  if (error) return { error: "Gagal menghapus buku: " + error.message };
+
+  revalidatePath("/admin/books");
+  return {};
 }
 
 export async function deleteBookAction(id: string): Promise<void> {
