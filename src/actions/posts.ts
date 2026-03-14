@@ -122,6 +122,7 @@ export async function updatePostAction(
     updated_at: new Date().toISOString(),
   };
 
+  // Set published_at when first transitioning to published (preserve original date on re-publish)
   if (parsed.data.status === "published" && !existingPost?.published_at) {
     updateData.published_at = new Date().toISOString();
   }
@@ -183,5 +184,6 @@ export async function deletePostAction(id: string): Promise<void> {
   const { error } = await supabase.from("posts").delete().eq("id", id);
   if (error) throw new Error("Gagal menghapus post: " + error.message);
 
+  revalidatePath("/blog");
   redirect("/admin/blog");
 }
