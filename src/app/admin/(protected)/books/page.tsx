@@ -60,7 +60,7 @@ export default async function AdminBooksPage() {
                   <div className="flex items-center gap-3">
                     <Link
                       href={`/admin/books/${book.id}/edit`}
-                      className="text-orange-600 hover:text-orange-800 font-medium"
+                      className="text-brand-600 hover:text-brand-800 font-medium"
                     >
                       Edit
                     </Link>

@@ -36,7 +36,7 @@ export default function BooksBrowserClient({
               className={cn(
                 "text-sm font-medium pb-1 border-b-2 transition-colors cursor-pointer",
                 activeTab === "all"
-                  ? "border-orange-500 text-gray-900"
+                  ? "border-brand-500 text-gray-900"
                   : "border-transparent text-gray-400 hover:text-gray-600"
               )}
             >
@@ -49,7 +49,7 @@ export default function BooksBrowserClient({
                 className={cn(
                   "text-sm font-medium pb-1 border-b-2 transition-colors cursor-pointer",
                   activeTab === cat.slug
-                    ? "border-orange-500 text-gray-900"
+                    ? "border-brand-500 text-gray-900"
                     : "border-transparent text-gray-400 hover:text-gray-600"
                 )}
               >

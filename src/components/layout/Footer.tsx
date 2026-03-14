@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-1 mb-3">
-              <span className="text-orange-500">*</span>
+              <span className="text-brand-500">*</span>
               <span className="font-bold text-gray-900">oxamatter</span>
             </div>
             <p className="text-sm text-gray-500">

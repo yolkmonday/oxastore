@@ -70,7 +70,7 @@ export default function BookForm({
           required
           value={titleValue}
           onChange={handleTitleChange}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -79,7 +79,7 @@ export default function BookForm({
           Slug URL
           <span className="text-gray-400 font-normal ml-1">(opsional, auto-generate dari judul)</span>
         </label>
-        <div className="flex items-center rounded-lg border border-gray-300 overflow-hidden focus-within:ring-2 focus-within:ring-orange-500">
+        <div className="flex items-center rounded-lg border border-gray-300 overflow-hidden focus-within:ring-2 focus-within:ring-brand-500">
           <span className="px-3 py-2 text-sm text-gray-400 bg-gray-50 border-r border-gray-300">/books/</span>
           <input
             type="text"
@@ -101,7 +101,7 @@ export default function BookForm({
           name="author"
           required
           defaultValue={defaultValues.author}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -117,7 +117,7 @@ export default function BookForm({
             min="0"
             required
             defaultValue={defaultValues.price}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
         <div>
@@ -129,7 +129,7 @@ export default function BookForm({
             name="year"
             required
             defaultValue={defaultValues.year}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
       </div>
@@ -142,7 +142,7 @@ export default function BookForm({
           name="category"
           defaultValue={defaultValues.category ?? ""}
           required
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         >
           <option value="" disabled>Pilih kategori...</option>
           {categories.map((cat) => (
@@ -163,7 +163,7 @@ export default function BookForm({
           name="tags"
           defaultValue={defaultValues.tags?.join(", ") ?? ""}
           placeholder="fiksi, novel, bestseller"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -177,7 +177,7 @@ export default function BookForm({
           min="0"
           max="100"
           defaultValue={defaultValues.discount ?? ""}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -189,7 +189,7 @@ export default function BookForm({
           type="text"
           name="publisher"
           defaultValue={defaultValues.publisher ?? ""}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -201,7 +201,7 @@ export default function BookForm({
           type="text"
           name="language"
           defaultValue={defaultValues.language ?? ""}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -214,7 +214,7 @@ export default function BookForm({
           name="pages"
           min="1"
           defaultValue={defaultValues.pages ?? ""}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -229,7 +229,7 @@ export default function BookForm({
             step="0.1"
             min="0"
             defaultValue={defaultValues.length ?? ""}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
         <div>
@@ -242,7 +242,7 @@ export default function BookForm({
             step="0.1"
             min="0"
             defaultValue={defaultValues.width ?? ""}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
         <div>
@@ -255,7 +255,7 @@ export default function BookForm({
             step="0.1"
             min="0"
             defaultValue={defaultValues.weight ?? ""}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
       </div>
@@ -268,7 +268,7 @@ export default function BookForm({
           name="description"
           rows={4}
           defaultValue={defaultValues.description ?? ""}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
 

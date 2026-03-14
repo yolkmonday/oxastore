@@ -16,7 +16,7 @@ export default function BookCard({ book }: BookCardProps) {
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-lg transition-shadow group">
       <div className="flex items-center justify-between mb-3">
-        <Link href={`/books/${book.slug || book.id}`} className="text-xs text-gray-400 truncate hover:text-orange-500 transition-colors">{book.title}</Link>
+        <Link href={`/books/${book.slug || book.id}`} className="text-xs text-gray-400 truncate hover:text-brand-500 transition-colors">{book.title}</Link>
         <p className="text-xs text-gray-400">{book.year}</p>
       </div>
 
@@ -44,7 +44,7 @@ export default function BookCard({ book }: BookCardProps) {
         </p>
         <button
           onClick={() => addToCart(book)}
-          className="flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-orange-500 transition-colors cursor-pointer"
+          className="flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-brand-500 transition-colors cursor-pointer"
         >
           Tambah
           <Icon icon="mdi:arrow-right" className="text-base" />

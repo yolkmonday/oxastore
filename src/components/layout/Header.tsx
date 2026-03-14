@@ -17,7 +17,7 @@ export default function Header() {
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-1">
-          <span className="text-orange-500 text-xl">*</span>
+          <span className="text-brand-500 text-xl">*</span>
           <span className="text-xl font-bold text-gray-900">oxamatter</span>
         </Link>
 

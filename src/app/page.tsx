@@ -8,7 +8,7 @@ export default function Home() {
         <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
           Curated books
           <br />
-          <span className="text-orange-500">for intentional living.</span>
+          <span className="text-brand-500">for intentional living.</span>
         </h1>
         <p className="text-lg text-gray-500 max-w-xl mx-auto mb-10">
           Discover handpicked collections of books that inspire growth,

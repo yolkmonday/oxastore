@@ -65,7 +65,7 @@ export default async function BookDetailPage({ params }: Props) {
 
         {/* Info */}
         <div>
-          <p className="text-sm text-orange-500 font-medium uppercase tracking-wide mb-1">
+          <p className="text-sm text-brand-500 font-medium uppercase tracking-wide mb-1">
             {book.category}
           </p>
           <h1 className="text-3xl font-bold text-gray-900 mb-1">{book.title}</h1>
@@ -87,7 +87,7 @@ export default async function BookDetailPage({ params }: Props) {
               {book.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="bg-orange-50 text-orange-700 text-xs font-medium px-2.5 py-1 rounded-full border border-orange-200"
+                  className="bg-brand-50 text-brand-700 text-xs font-medium px-2.5 py-1 rounded-full border border-brand-200"
                 >
                   {tag}
                 </span>

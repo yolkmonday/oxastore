@@ -50,7 +50,7 @@ export default function CategoryForm({
           value={nameValue}
           onChange={handleNameChange}
           placeholder="Contoh: Fiksi Ilmiah"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
       </div>
 
@@ -66,7 +66,7 @@ export default function CategoryForm({
           value={slugValue}
           onChange={(e) => setSlugValue(e.target.value)}
           placeholder="fiksi-ilmiah"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
         />
         <p className="text-xs text-gray-400 mt-1">Hanya huruf kecil, angka, dan tanda hubung (-)</p>
       </div>
