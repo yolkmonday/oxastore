@@ -15,7 +15,7 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
-export async function loginAction(formData: FormData): Promise<ActionResult> {
+export async function loginAction(_prevState: ActionResult | undefined, formData: FormData): Promise<ActionResult> {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -63,6 +63,7 @@ const changePasswordSchema = z.object({
 });
 
 export async function changePasswordAction(
+  _prevState: ActionResult | undefined,
   formData: FormData
 ): Promise<ActionResult> {
   const session = await getSession();
@@ -76,7 +77,7 @@ export async function changePasswordAction(
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { currentPassword, newPassword } = parsed.data;

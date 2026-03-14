@@ -26,6 +26,7 @@ const bookSchema = z.object({
 });
 
 export async function createBookAction(
+  _prevState: ActionResult | undefined,
   formData: FormData
 ): Promise<ActionResult> {
   await requireAdmin();
@@ -41,7 +42,7 @@ export async function createBookAction(
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const supabase = createSupabaseClient();
@@ -77,6 +78,7 @@ export async function createBookAction(
 
 export async function updateBookAction(
   id: string,
+  _prevState: ActionResult | undefined,
   formData: FormData
 ): Promise<ActionResult> {
   await requireAdmin();
@@ -94,7 +96,7 @@ export async function updateBookAction(
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   // Fetch existing cover to delete if a new one is uploaded
@@ -154,7 +156,7 @@ export async function updateBookAction(
   redirect("/admin/books");
 }
 
-export async function deleteBookAction(id: string): Promise<ActionResult> {
+export async function deleteBookAction(id: string): Promise<void> {
   await requireAdmin();
   const supabase = createSupabaseClient();
 
@@ -178,7 +180,7 @@ export async function deleteBookAction(id: string): Promise<ActionResult> {
 
   const { error } = await supabase.from("books").delete().eq("id", id);
   if (error) {
-    return { error: "Gagal menghapus buku: " + error.message };
+    throw new Error("Gagal menghapus buku: " + error.message);
   }
 
   redirect("/admin/books");

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ActionResult } from "@/actions/books";
 
 interface BookFormProps {
-  action: (formData: FormData) => Promise<ActionResult>;
+  action: (_prevState: ActionResult | undefined, formData: FormData) => Promise<ActionResult>;
   defaultValues?: {
     title?: string;
     author?: string;
