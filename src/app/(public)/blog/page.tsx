@@ -1,62 +1,105 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getPublishedPosts } from "@/data/posts";
+import { getAllTags } from "@/data/tags";
+import BlogSearchFilter from "@/components/blog/BlogSearchFilter";
+import Pagination from "@/components/ui/Pagination";
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogPage() {
-  const posts = await getPublishedPosts();
+interface Props {
+  searchParams: Promise<{ q?: string; tag?: string; page?: string }>;
+}
+
+export default async function BlogPage({ searchParams }: Props) {
+  const { q = "", tag = "", page: pageStr = "1" } = await searchParams;
+  const page = Math.max(1, parseInt(pageStr, 10) || 1);
+
+  const [{ posts, totalPages }, tags] = await Promise.all([
+    getPublishedPosts({ page, q, tag }),
+    getAllTags(),
+  ]);
+
+  function buildHref(p: number): string {
+    const params = new URLSearchParams();
+    if (q) params.set("q", q);
+    if (tag) params.set("tag", tag);
+    params.set("page", String(p));
+    return `/blog?${params.toString()}`;
+  }
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold text-gray-900 mb-2">Blog</h1>
-      <p className="text-gray-500 mb-10">Artikel, tips, dan cerita dari kami.</p>
+      <p className="text-gray-500 mb-8">Artikel, tips, dan cerita dari kami.</p>
+
+      <BlogSearchFilter tags={tags} currentQ={q} currentTag={tag} />
 
       {posts.length === 0 ? (
         <p className="text-gray-400 text-center py-20">Belum ada artikel.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/blog/${post.slug}`}
-              className="group flex flex-col bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              {post.thumbnail ? (
-                <div className="relative h-48 w-full">
-                  <Image
-                    src={post.thumbnail}
-                    alt={post.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-              ) : (
-                <div className="h-48 bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-300 text-4xl">📝</span>
-                </div>
-              )}
-              <div className="p-5 flex flex-col flex-1">
-                <h2 className="font-bold text-gray-900 group-hover:text-brand-600 transition-colors mb-2 line-clamp-2">
-                  {post.title}
-                </h2>
-                {post.excerpt && (
-                  <p className="text-sm text-gray-500 line-clamp-3 mb-4 flex-1">
-                    {post.excerpt}
-                  </p>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="group flex flex-col bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                {post.thumbnail ? (
+                  <div className="relative h-48 w-full">
+                    <Image
+                      src={post.thumbnail}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-48 bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-300 text-4xl">📝</span>
+                  </div>
                 )}
-                <p className="text-xs text-gray-400 mt-auto">
-                  {new Date(post.published_at ?? post.created_at).toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h2 className="font-bold text-gray-900 group-hover:text-brand-600 transition-colors mb-2 line-clamp-2">
+                    {post.title}
+                  </h2>
+                  {post.excerpt && (
+                    <p className="text-sm text-gray-500 line-clamp-3 mb-4 flex-1">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {post.tags.map((t) => (
+                        <span
+                          key={t.id}
+                          className="text-xs px-2 py-0.5 rounded-full bg-brand-50 text-brand-600"
+                        >
+                          {t.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-400 mt-auto">
+                    {new Date(post.published_at ?? post.created_at).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            buildHref={buildHref}
+          />
+        </>
       )}
     </main>
   );
