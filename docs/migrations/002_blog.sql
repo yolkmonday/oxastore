@@ -1,5 +1,5 @@
 -- docs/migrations/002_blog.sql
-CREATE TABLE posts (
+CREATE TABLE IF NOT EXISTS posts (
   id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug         text UNIQUE NOT NULL,
   title        text NOT NULL,
@@ -14,6 +14,6 @@ CREATE TABLE posts (
 
 ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "public read published posts"
+CREATE POLICY IF NOT EXISTS "public read published posts"
   ON posts FOR SELECT
   USING (status = 'published');
