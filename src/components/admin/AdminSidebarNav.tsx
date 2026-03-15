@@ -32,6 +32,11 @@ const navItems = [
     label: "Pesanan",
   },
   {
+    href: "/admin/menus",
+    icon: "mdi:menu",
+    label: "Menu",
+  },
+  {
     href: "/admin/settings",
     icon: "mdi:cog-outline",
     label: "Pengaturan",

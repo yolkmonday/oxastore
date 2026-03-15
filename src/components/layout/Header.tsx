@@ -9,8 +9,14 @@ import Badge from "@/components/ui/Badge";
 import SearchBar from "@/components/ui/SearchBar";
 import Button from "@/components/ui/Button";
 import UserNav from "@/components/layout/UserNav";
+import type { MenuItem } from "@/types";
 
-export default function Header({ userEmail }: { userEmail?: string | null }) {
+interface HeaderProps {
+  userEmail?: string | null;
+  menuItems?: MenuItem[];
+}
+
+export default function Header({ userEmail, menuItems = [] }: HeaderProps) {
   const { getCartCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const count = getCartCount();
@@ -23,38 +29,18 @@ export default function Header({ userEmail }: { userEmail?: string | null }) {
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">
-          <li>
-            <Link
-              href="#"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Tentang
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/books"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Buku
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/books?tab=popular"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Populer
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#"
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Bantuan
-            </Link>
-          </li>
+          {menuItems.map((item) => (
+            <li key={item.id}>
+              <Link
+                href={item.url}
+                target={item.open_new_tab ? "_blank" : undefined}
+                rel={item.open_new_tab ? "noopener noreferrer" : undefined}
+                className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="hidden md:flex items-center gap-4">
@@ -104,26 +90,19 @@ export default function Header({ userEmail }: { userEmail?: string | null }) {
         <div className="md:hidden border-t border-gray-100 px-6 py-4 space-y-4">
           <SearchBar className="w-full" />
           <ul className="space-y-3">
-            <li>
-              <Link href="#" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Tentang
-              </Link>
-            </li>
-            <li>
-              <Link href="/books" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Buku
-              </Link>
-            </li>
-            <li>
-              <Link href="/books?tab=popular" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Populer
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="text-sm text-gray-600" onClick={() => setMenuOpen(false)}>
-                Bantuan
-              </Link>
-            </li>
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  href={item.url}
+                  target={item.open_new_tab ? "_blank" : undefined}
+                  rel={item.open_new_tab ? "noopener noreferrer" : undefined}
+                  className="text-sm text-gray-600"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
           <div className="flex items-center gap-4">
             <Link href="/cart" className="relative" onClick={() => setMenuOpen(false)}>

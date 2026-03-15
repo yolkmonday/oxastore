@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { getMenusByLocation } from "@/data/menus";
 
 export default async function UserLayout({
   children,
@@ -18,11 +19,18 @@ export default async function UserLayout({
     redirect("/masuk");
   }
 
+  const [headerGroups, footerGroups] = await Promise.all([
+    getMenusByLocation("header"),
+    getMenusByLocation("footer"),
+  ]);
+
+  const headerItems = headerGroups[0]?.items ?? [];
+
   return (
     <CartProvider>
-      <Header userEmail={user.email} />
+      <Header userEmail={user.email} menuItems={headerItems} />
       <main>{children}</main>
-      <Footer />
+      <Footer menuGroups={footerGroups} />
     </CartProvider>
   );
 }

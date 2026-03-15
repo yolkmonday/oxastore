@@ -116,3 +116,23 @@ export interface Post {
   updated_at: string;
   tags?: Tag[];
 }
+
+export type MenuLocation = "header" | "footer";
+
+export interface MenuItem {
+  id: string;
+  group_id: string;
+  label: string;
+  url: string;
+  icon: string | null;
+  open_new_tab: boolean;
+  sort_order: number;
+}
+
+export interface MenuGroup {
+  id: string;
+  location: MenuLocation;
+  title: string | null;
+  sort_order: number;
+  items: MenuItem[];
+}

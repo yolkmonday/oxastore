@@ -1,8 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import type { MenuGroup } from "@/types";
 
-export default function Footer() {
+interface FooterProps {
+  menuGroups?: MenuGroup[];
+}
+
+export default function Footer({ menuGroups = [] }: FooterProps) {
   return (
     <footer className="bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -16,55 +21,54 @@ export default function Footer() {
             </p>
           </div>
 
-          <div>
-            <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Perusahaan
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Tentang Kami
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Kontak
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {menuGroups.map((group) => {
+            const hasSocialIcons = group.items.some((item) => item.icon);
 
-          <div>
-            <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Dukungan
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Syarat & Ketentuan
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-sm text-gray-500 hover:text-gray-700">
-                  Kebijakan Privasi
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
-              Sosial
-            </h4>
-            <div className="flex items-center gap-3">
-              <Link href="#" className="text-gray-400 hover:text-gray-600" aria-label="Instagram">
-                <Icon icon="mdi:instagram" className="text-xl" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-gray-600" aria-label="Bagikan">
-                <Icon icon="mdi:share-variant" className="text-xl" />
-              </Link>
-            </div>
-          </div>
+            return (
+              <div key={group.id}>
+                {group.title && (
+                  <h4 className="font-semibold text-xs uppercase tracking-wider text-gray-900 mb-4">
+                    {group.title}
+                  </h4>
+                )}
+                {hasSocialIcons ? (
+                  <div className="flex items-center gap-3">
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={item.url}
+                        target={item.open_new_tab ? "_blank" : undefined}
+                        rel={item.open_new_tab ? "noopener noreferrer" : undefined}
+                        className="text-gray-400 hover:text-gray-600"
+                        aria-label={item.label}
+                      >
+                        {item.icon ? (
+                          <Icon icon={item.icon} className="text-xl" />
+                        ) : (
+                          <span className="text-sm">{item.label}</span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <ul className="space-y-2">
+                    {group.items.map((item) => (
+                      <li key={item.id}>
+                        <Link
+                          href={item.url}
+                          target={item.open_new_tab ? "_blank" : undefined}
+                          rel={item.open_new_tab ? "noopener noreferrer" : undefined}
+                          className="text-sm text-gray-500 hover:text-gray-700"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
