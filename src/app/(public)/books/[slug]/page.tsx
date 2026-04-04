@@ -6,6 +6,14 @@ import { getBookBySlug } from "@/data/books";
 import { formatCurrency } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import AddToCartButton from "@/components/books/AddToCartButton";
+import dynamic from "next/dynamic";
+
+const Book3DViewer = dynamic(() => import("@/components/books/Book3DViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-[220px] aspect-[3/4] rounded-xl bg-gray-100 animate-pulse" />
+  ),
+});
 
 export const dynamic = "force-dynamic";
 
@@ -36,30 +44,56 @@ export default async function BookDetailPage({ params }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
         {/* Cover */}
         <div className="flex flex-col items-center gap-4">
-          <div className="relative w-[220px] aspect-[3/4] rounded-xl overflow-hidden shadow-lg bg-gray-100">
-            {book.discount && (
-              <Badge
-                variant="discount"
-                className="absolute top-2 left-2 z-10"
-              >
-                {book.discount}% DISKON
-              </Badge>
-            )}
-            {book.isBestSeller && (
-              <Badge
-                variant="bestseller"
-                className="absolute top-2 right-2 z-10"
-              >
-                Best Seller
-              </Badge>
-            )}
-            <Image
-              src={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
-              alt={book.title}
-              fill
-              className="object-cover"
-            />
-          </div>
+          {book.backImage && book.spineImage ? (
+            <div className="relative w-[280px]">
+              {book.discount && (
+                <Badge
+                  variant="discount"
+                  className="absolute top-2 left-2 z-10"
+                >
+                  {book.discount}% DISKON
+                </Badge>
+              )}
+              {book.isBestSeller && (
+                <Badge
+                  variant="bestseller"
+                  className="absolute top-2 right-2 z-10"
+                >
+                  Best Seller
+                </Badge>
+              )}
+              <Book3DViewer
+                frontImage={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
+                backImage={book.backImage}
+                spineImage={book.spineImage}
+              />
+            </div>
+          ) : (
+            <div className="relative w-[220px] aspect-[3/4] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+              {book.discount && (
+                <Badge
+                  variant="discount"
+                  className="absolute top-2 left-2 z-10"
+                >
+                  {book.discount}% DISKON
+                </Badge>
+              )}
+              {book.isBestSeller && (
+                <Badge
+                  variant="bestseller"
+                  className="absolute top-2 right-2 z-10"
+                >
+                  Best Seller
+                </Badge>
+              )}
+              <Image
+                src={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
+                alt={book.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
           <AddToCartButton book={book} />
         </div>
 
