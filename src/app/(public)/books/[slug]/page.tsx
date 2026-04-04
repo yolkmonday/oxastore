@@ -6,7 +6,7 @@ import { getBookBySlug } from "@/data/books";
 import { formatCurrency } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import AddToCartButton from "@/components/books/AddToCartButton";
-import Book3DViewerWrapper from "@/components/books/Book3DViewerWrapper";
+import Book3DSection from "@/components/books/Book3DSection";
 
 export const dynamic = "force-dynamic";
 
@@ -55,7 +55,7 @@ export default async function BookDetailPage({ params }: Props) {
                   Best Seller
                 </Badge>
               )}
-              <Book3DViewerWrapper
+              <Book3DSection
                 frontImage={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
                 backImage={book.backImage}
                 spineImage={book.spineImage}
