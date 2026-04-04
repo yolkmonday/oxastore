@@ -18,9 +18,9 @@ interface Book3DViewerProps {
 
 // ~0.006cm per page, scaled to 3D units (1 unit ≈ 1cm)
 function pagestoDepth(pages?: number): number {
-  if (!pages || pages <= 0) return 0.2;
-  const d = pages * 0.003;
-  return Math.max(0.1, Math.min(d, 0.8));
+  if (!pages || pages <= 0) return 0.15;
+  const d = pages * 0.0015;
+  return Math.max(0.08, Math.min(d, 0.5));
 }
 
 function BookMesh({
