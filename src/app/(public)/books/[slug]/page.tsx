@@ -34,11 +34,11 @@ export default async function BookDetailPage({ params }: Props) {
         Kembali ke Daftar Buku
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-10">
         {/* Cover */}
         <div className="flex flex-col items-center gap-4">
           {book.backImage && book.spineImage ? (
-            <div className="relative w-[280px]">
+            <div className="relative w-[380px]">
               {book.discount && (
                 <Badge
                   variant="discount"
@@ -59,6 +59,7 @@ export default async function BookDetailPage({ params }: Props) {
                 frontImage={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
                 backImage={book.backImage}
                 spineImage={book.spineImage}
+                className="w-full h-[500px] p-4"
               />
             </div>
           ) : (

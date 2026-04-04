@@ -13,6 +13,7 @@ interface Props {
   frontImage: string;
   backImage?: string | null;
   spineImage?: string | null;
+  className?: string;
 }
 
 export default function Book3DViewerWrapper(props: Props) {

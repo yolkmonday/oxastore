@@ -12,6 +12,7 @@ interface Book3DViewerProps {
   width?: number;
   height?: number;
   depth?: number;
+  className?: string;
 }
 
 function BookMesh({
@@ -101,7 +102,7 @@ export default function Book3DViewer(props: Book3DViewerProps) {
 
   return (
     <Suspense fallback={<FallbackPlaceholder />}>
-      <div className="w-full h-[400px] p-6">
+      <div className={props.className ?? "w-full h-[400px] p-6"}>
         <Canvas
           camera={{ position: [0, 0, 5], fov: 35 }}
           onCreated={handleCreated}
