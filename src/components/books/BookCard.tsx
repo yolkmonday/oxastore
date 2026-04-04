@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { Book } from "@/types";
 import { useCart } from "@/context/CartContext";
+import BookMockup from "@/components/books/BookMockup";
 
 interface BookCardProps {
   book: Book;
@@ -20,15 +20,13 @@ export default function BookCard({ book }: BookCardProps) {
         <p className="text-xs text-gray-400">{book.year}</p>
       </div>
 
-      <Link href={`/books/${book.slug || book.id}`} className="flex justify-center mb-4">
+      <Link href={`/books/${book.slug || book.id}`} className="flex justify-center mb-4 py-2">
         {book.coverImage ? (
-          <Image
-            src={book.coverImage}
-            alt={book.title}
-            width={160}
-            height={220}
-            className="rounded-md object-cover hover:opacity-90 transition-opacity"
-            style={{ width: "160px", height: "auto" }}
+          <BookMockup
+            coverImage={book.coverImage}
+            spineImage={book.spineImage ?? undefined}
+            title={book.title}
+            pages={book.pages}
           />
         ) : (
           <div className="w-[160px] h-[220px] rounded-md bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-4">
