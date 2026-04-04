@@ -71,15 +71,17 @@ function BookMesh({
 
 export default function Book3DViewer(props: Book3DViewerProps) {
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-[400px] p-6">
       <Canvas camera={{ position: [0, 0, 6], fov: 40 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 5, 5]} intensity={0.8} />
         <directionalLight position={[-5, -5, -5]} intensity={0.3} />
         <BookMesh {...props} />
         <OrbitControls
-          enableZoom={false}
+          enableZoom={true}
           enablePan={false}
+          minDistance={3}
+          maxDistance={10}
           minPolarAngle={Math.PI / 3}
           maxPolarAngle={(Math.PI * 2) / 3}
         />
