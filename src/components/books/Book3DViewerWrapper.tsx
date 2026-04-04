@@ -13,6 +13,7 @@ interface Props {
   frontImage: string;
   backImage?: string | null;
   spineImage?: string | null;
+  pages?: number;
   className?: string;
 }
 

@@ -9,22 +9,32 @@ interface Book3DViewerProps {
   frontImage: string;
   backImage?: string | null;
   spineImage?: string | null;
+  pages?: number;
   width?: number;
   height?: number;
   depth?: number;
   className?: string;
 }
 
+// ~0.006cm per page, scaled to 3D units (1 unit ≈ 1cm)
+function pagestoDepth(pages?: number): number {
+  if (!pages || pages <= 0) return 0.2;
+  const d = pages * 0.003;
+  return Math.max(0.1, Math.min(d, 0.8));
+}
+
 function BookMesh({
   frontImage,
   backImage,
   spineImage,
+  pages,
   width = 2,
   height = 2.8,
-  depth = 0.2,
+  depth: depthProp,
 }: Book3DViewerProps) {
   const meshRef = useRef<Mesh>(null);
   const isHovering = useRef(false);
+  const depth = depthProp ?? pagestoDepth(pages);
 
   const urls = useMemo(() => {
     const list = [frontImage];
@@ -47,20 +57,38 @@ function BookMesh({
     }
   });
 
+  // Spine fills the entire spine face
+  const spineW = depth;
+  const spineH = height;
+
   return (
-    <mesh
+    <group
       ref={meshRef}
       onPointerOver={() => (isHovering.current = true)}
       onPointerOut={() => (isHovering.current = false)}
     >
-      <boxGeometry args={[width, height, depth]} />
-      <meshStandardMaterial attach="material-0" color="#f5f5f4" />
-      <meshStandardMaterial attach="material-1" map={spineTex} color={spineTex ? undefined : "#e7e5e4"} />
-      <meshStandardMaterial attach="material-2" color="#f5f5f4" />
-      <meshStandardMaterial attach="material-3" color="#f5f5f4" />
-      <meshStandardMaterial attach="material-4" map={frontTex} />
-      <meshStandardMaterial attach="material-5" map={backTex} color={backTex ? undefined : "#e7e5e4"} />
-    </mesh>
+      {/* Book body */}
+      <mesh>
+        <boxGeometry args={[width, height, depth]} />
+        <meshStandardMaterial attach="material-0" color="#f5f5f4" />
+        <meshStandardMaterial attach="material-1" color="#e7e5e4" />
+        <meshStandardMaterial attach="material-2" color="#f5f5f4" />
+        <meshStandardMaterial attach="material-3" color="#f5f5f4" />
+        <meshStandardMaterial attach="material-4" map={frontTex} />
+        <meshStandardMaterial attach="material-5" map={backTex} color={backTex ? undefined : "#e7e5e4"} />
+      </mesh>
+
+      {/* Spine image as centered plane on the left face */}
+      {spineTex && (
+        <mesh
+          position={[-(width / 2 + 0.001), 0, 0]}
+          rotation={[0, -Math.PI / 2, 0]}
+        >
+          <planeGeometry args={[spineW, spineH]} />
+          <meshStandardMaterial map={spineTex} transparent />
+        </mesh>
+      )}
+    </group>
   );
 }
 

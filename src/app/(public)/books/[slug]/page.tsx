@@ -59,6 +59,7 @@ export default async function BookDetailPage({ params }: Props) {
                 frontImage={book.coverImage || "https://placehold.co/220x293/e5e7eb/9ca3af?text=No+Cover"}
                 backImage={book.backImage}
                 spineImage={book.spineImage}
+                pages={book.pages}
                 className="w-full h-[500px] p-4"
               />
             </div>
