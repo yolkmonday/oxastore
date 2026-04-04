@@ -42,7 +42,7 @@ function StandingBook({
   return (
     <div className="absolute inset-0" style={{ zIndex, ...style }}>
       <div
-        className="absolute left-1/2 top-1/2 w-[130px] h-[195px]"
+        className="absolute left-1/2 top-1/2 w-[120px] h-[180px]"
         style={{
           transformStyle: "preserve-3d",
           transform: `translate(-50%, -50%) rotateY(${rotateY}deg)`,
@@ -58,7 +58,7 @@ function StandingBook({
             boxShadow: `${spineOnRight ? "" : "-"}3px 6px 20px rgba(0,0,0,0.4)`,
           }}
         >
-          <Image src={image} alt={alt} fill className="object-cover" sizes="115px" />
+          <Image src={image} alt={alt} fill className="object-cover" sizes="120px" />
           {/* Subtle light gradient */}
           <div
             className="absolute inset-0 pointer-events-none"
