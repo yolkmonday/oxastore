@@ -11,8 +11,8 @@ const Book3DViewer = dynamic(() => import("@/components/books/Book3DViewer"), {
 
 interface Props {
   frontImage: string;
-  backImage: string;
-  spineImage: string;
+  backImage?: string | null;
+  spineImage?: string | null;
 }
 
 export default function Book3DViewerWrapper(props: Props) {

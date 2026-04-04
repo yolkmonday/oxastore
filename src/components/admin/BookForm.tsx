@@ -404,7 +404,7 @@ export default function BookForm({
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Preview 3D
         </label>
-        {coverPreview && backPreview && spinePreview ? (
+        {coverPreview ? (
           <div className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
             <Book3DViewer
               frontImage={coverPreview}
@@ -414,7 +414,7 @@ export default function BookForm({
           </div>
         ) : (
           <div className="w-full h-48 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-300">
-            Upload cover depan, belakang, dan spine untuk preview 3D
+            Upload cover depan untuk preview 3D
           </div>
         )}
       </div>

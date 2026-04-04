@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { TextureLoader, Mesh } from "three";
+import { TextureLoader, Mesh, Texture } from "three";
 
 interface Book3DViewerProps {
   frontImage: string;
-  backImage: string;
-  spineImage: string;
+  backImage?: string | null;
+  spineImage?: string | null;
   width?: number;
   height?: number;
   depth?: number;
@@ -25,11 +25,20 @@ function BookMesh({
   const meshRef = useRef<Mesh>(null);
   const isHovering = useRef(false);
 
-  const [frontTex, backTex, spineTex] = useLoader(TextureLoader, [
-    frontImage,
-    backImage,
-    spineImage,
-  ]);
+  const urls = useMemo(() => {
+    const list = [frontImage];
+    if (backImage) list.push(backImage);
+    if (spineImage) list.push(spineImage);
+    return list;
+  }, [frontImage, backImage, spineImage]);
+
+  const textures = useLoader(TextureLoader, urls);
+
+  const frontTex = textures[0] as Texture;
+  const backTex = (backImage ? textures[1] : null) as Texture | null;
+  const spineTex = (spineImage
+    ? textures[backImage ? 2 : 1]
+    : null) as Texture | null;
 
   useFrame((_state, delta) => {
     if (meshRef.current && !isHovering.current) {
@@ -51,11 +60,11 @@ function BookMesh({
         +Z = front cover, -Z = back cover
       */}
       <meshStandardMaterial attach="material-0" color="#f5f5f4" />
-      <meshStandardMaterial attach="material-1" map={spineTex} />
+      <meshStandardMaterial attach="material-1" map={spineTex} color={spineTex ? undefined : "#e7e5e4"} />
       <meshStandardMaterial attach="material-2" color="#f5f5f4" />
       <meshStandardMaterial attach="material-3" color="#f5f5f4" />
       <meshStandardMaterial attach="material-4" map={frontTex} />
-      <meshStandardMaterial attach="material-5" map={backTex} />
+      <meshStandardMaterial attach="material-5" map={backTex} color={backTex ? undefined : "#e7e5e4"} />
     </mesh>
   );
 }
