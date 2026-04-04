@@ -26,6 +26,8 @@ export interface Book {
   price: number;
   year: number;
   coverImage: string | null;
+  backImage: string | null;
+  spineImage: string | null;
   category: string;
   tags: string[];
   discount?: number;

@@ -10,6 +10,8 @@ function mapRow(row: Record<string, unknown>): Book {
     price: Number(row.price),
     year: row.year as number,
     coverImage: (row.cover_image as string | null) ?? null,
+    backImage: (row.back_image as string | null) ?? null,
+    spineImage: (row.spine_image as string | null) ?? null,
     category: row.category as string,
     tags: (row.tags as string[]) ?? [],
     isBestSeller: row.is_bestseller as boolean,
