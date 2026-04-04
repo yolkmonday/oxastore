@@ -50,6 +50,33 @@ function parseSlugAndTags(formData: FormData) {
   return { slug, tags, marketplace_links };
 }
 
+async function uploadBookImage(
+  supabase: ReturnType<typeof createSupabaseClient>,
+  file: File | null
+): Promise<string | null> {
+  if (!file || file.size === 0) return null;
+  const ext = file.name.split(".").pop();
+  const filename = `${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage
+    .from("book-covers")
+    .upload(filename, file);
+  if (error) throw new Error("Gagal upload gambar: " + error.message);
+  const { data: urlData } = supabase.storage
+    .from("book-covers")
+    .getPublicUrl(filename);
+  return urlData.publicUrl;
+}
+
+function extractStoragePath(imageUrl: string): string | null {
+  try {
+    const url = new URL(imageUrl);
+    const parts = url.pathname.split("/book-covers/");
+    return parts.length === 2 ? parts[1] : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function createBookAction(
   _prevState: ActionResult | undefined,
   formData: FormData
@@ -81,25 +108,22 @@ export async function createBookAction(
   const supabase = createSupabaseClient();
 
   let cover_image: string | null = null;
-  const coverFile = formData.get("cover_image") as File | null;
-  if (coverFile && coverFile.size > 0) {
-    const ext = coverFile.name.split(".").pop();
-    const filename = `${crypto.randomUUID()}.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from("book-covers")
-      .upload(filename, coverFile);
-    if (uploadError) {
-      return { error: "Gagal upload gambar: " + uploadError.message };
-    }
-    const { data: urlData } = supabase.storage
-      .from("book-covers")
-      .getPublicUrl(filename);
-    cover_image = urlData.publicUrl;
+  let back_image: string | null = null;
+  let spine_image: string | null = null;
+
+  try {
+    cover_image = await uploadBookImage(supabase, formData.get("cover_image") as File | null);
+    back_image = await uploadBookImage(supabase, formData.get("back_image") as File | null);
+    spine_image = await uploadBookImage(supabase, formData.get("spine_image") as File | null);
+  } catch (err) {
+    return { error: (err as Error).message };
   }
 
   const { error } = await supabase.from("books").insert({
     ...parsed.data,
     cover_image,
+    back_image,
+    spine_image,
     slug,
     tags,
     marketplace_links,
@@ -144,41 +168,46 @@ export async function updateBookAction(
 
   const { slug, tags, marketplace_links } = parseSlugAndTags(formData);
 
-  // Fetch existing cover to delete if a new one is uploaded
+  // Fetch existing images to delete if new ones are uploaded
   const { data: existingBook } = await supabase
     .from("books")
-    .select("cover_image")
+    .select("cover_image, back_image, spine_image")
     .eq("id", id)
     .single();
 
   let cover_image: string | undefined = undefined;
-  const coverFile = formData.get("cover_image") as File | null;
-  if (coverFile && coverFile.size > 0) {
-    const ext = coverFile.name.split(".").pop();
-    const filename = `${crypto.randomUUID()}.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from("book-covers")
-      .upload(filename, coverFile);
-    if (uploadError) {
-      return { error: "Gagal upload gambar: " + uploadError.message };
-    }
-    const { data: urlData } = supabase.storage
-      .from("book-covers")
-      .getPublicUrl(filename);
-    cover_image = urlData.publicUrl;
+  let back_image: string | undefined = undefined;
+  let spine_image: string | undefined = undefined;
 
-    // Delete old cover from Storage
-    if (existingBook?.cover_image) {
-      try {
-        const oldUrl = new URL(existingBook.cover_image);
-        const oldPathParts = oldUrl.pathname.split("/book-covers/");
-        if (oldPathParts.length === 2) {
-          await supabase.storage.from("book-covers").remove([oldPathParts[1]]);
-        }
-      } catch {
-        // Non-fatal: old image cleanup failed silently
+  try {
+    const newCover = await uploadBookImage(supabase, formData.get("cover_image") as File | null);
+    if (newCover) {
+      cover_image = newCover;
+      if (existingBook?.cover_image) {
+        const oldPath = extractStoragePath(existingBook.cover_image);
+        if (oldPath) await supabase.storage.from("book-covers").remove([oldPath]);
       }
     }
+
+    const newBack = await uploadBookImage(supabase, formData.get("back_image") as File | null);
+    if (newBack) {
+      back_image = newBack;
+      if (existingBook?.back_image) {
+        const oldPath = extractStoragePath(existingBook.back_image as string);
+        if (oldPath) await supabase.storage.from("book-covers").remove([oldPath]);
+      }
+    }
+
+    const newSpine = await uploadBookImage(supabase, formData.get("spine_image") as File | null);
+    if (newSpine) {
+      spine_image = newSpine;
+      if (existingBook?.spine_image) {
+        const oldPath = extractStoragePath(existingBook.spine_image as string);
+        if (oldPath) await supabase.storage.from("book-covers").remove([oldPath]);
+      }
+    }
+  } catch (err) {
+    return { error: (err as Error).message };
   }
 
   const updateData: Record<string, unknown> = {
@@ -188,9 +217,9 @@ export async function updateBookAction(
     marketplace_links,
     updated_at: new Date().toISOString(),
   };
-  if (cover_image !== undefined) {
-    updateData.cover_image = cover_image;
-  }
+  if (cover_image !== undefined) updateData.cover_image = cover_image;
+  if (back_image !== undefined) updateData.back_image = back_image;
+  if (spine_image !== undefined) updateData.spine_image = spine_image;
 
   const { error } = await supabase
     .from("books")
@@ -211,19 +240,14 @@ export async function bulkDeleteBooksAction(ids: string[]): Promise<ActionResult
 
   const { data: books } = await supabase
     .from("books")
-    .select("cover_image")
+    .select("cover_image, back_image, spine_image")
     .in("id", ids);
 
   if (books) {
     const filenames = books
       .flatMap((b) => {
-        if (!b.cover_image) return [];
-        try {
-          const parts = new URL(b.cover_image).pathname.split("/book-covers/");
-          return parts.length === 2 ? [parts[1]] : [];
-        } catch {
-          return [];
-        }
+        const urls = [b.cover_image, b.back_image, b.spine_image].filter(Boolean) as string[];
+        return urls.map(extractStoragePath).filter(Boolean) as string[];
       });
     if (filenames.length) {
       await supabase.storage.from("book-covers").remove(filenames);
@@ -243,19 +267,15 @@ export async function deleteBookAction(id: string): Promise<void> {
 
   const { data: book } = await supabase
     .from("books")
-    .select("cover_image")
+    .select("cover_image, back_image, spine_image")
     .eq("id", id)
     .single();
 
-  if (book?.cover_image) {
-    try {
-      const url = new URL(book.cover_image);
-      const pathParts = url.pathname.split("/book-covers/");
-      if (pathParts.length === 2) {
-        await supabase.storage.from("book-covers").remove([pathParts[1]]);
-      }
-    } catch {
-      // Non-fatal: storage cleanup failed silently
+  if (book) {
+    const urls = [book.cover_image, book.back_image, book.spine_image].filter(Boolean) as string[];
+    const paths = urls.map(extractStoragePath).filter(Boolean) as string[];
+    if (paths.length) {
+      await supabase.storage.from("book-covers").remove(paths);
     }
   }
 
