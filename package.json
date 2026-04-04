@@ -5,13 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cf": "opennextjs-cloudflare build",
+    "preview:cf": "opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint",
     "seed:admin": "tsx src/scripts/seed-admin.ts",
-    "seed:books": "tsx src/scripts/seed-books.ts"
+    "seed:books": "tsx src/scripts/seed-books.ts",
+    "seed:menus": "tsx src/scripts/seed-menus.ts"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
+    "@opennextjs/cloudflare": "^1.18.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -40,6 +45,7 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.80.0"
   }
 }
