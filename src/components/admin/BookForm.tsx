@@ -5,6 +5,16 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { ActionResult } from "@/actions/books";
 import { Category, MarketplaceLink, MarketplaceType } from "@/types";
+import dynamic from "next/dynamic";
+
+const Book3DViewer = dynamic(() => import("@/components/books/Book3DViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-64 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400">
+      Memuat preview 3D...
+    </div>
+  ),
+});
 
 const MARKETPLACE_OPTIONS: { value: MarketplaceType; label: string }[] = [
   { value: "shopee", label: "Shopee" },
@@ -28,6 +38,8 @@ interface BookFormProps {
     is_bestseller?: boolean;
     discount?: number | null;
     cover_image?: string | null;
+    back_image?: string | null;
+    spine_image?: string | null;
     description?: string;
     pages?: number | null;
     language?: string;
@@ -63,6 +75,20 @@ export default function BookForm({
   const [marketplaceLinks, setMarketplaceLinks] = useState<MarketplaceLink[]>(
     defaultValues.marketplaceLinks ?? []
   );
+
+  const [coverPreview, setCoverPreview] = useState<string | null>(defaultValues.cover_image ?? null);
+  const [backPreview, setBackPreview] = useState<string | null>(defaultValues.back_image ?? null);
+  const [spinePreview, setSpinePreview] = useState<string | null>(defaultValues.spine_image ?? null);
+
+  function handleImageChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: (url: string | null) => void
+  ) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setter(URL.createObjectURL(file));
+    }
+  }
 
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newTitle = e.target.value;
@@ -313,12 +339,83 @@ export default function BookForm({
           type="file"
           name="cover_image"
           accept="image/*"
+          onChange={(e) => handleImageChange(e, setCoverPreview)}
           className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
         />
         {defaultValues.cover_image && (
           <p className="text-xs text-gray-400 mt-1">
             Biarkan kosong untuk mempertahankan cover saat ini.
           </p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Cover Belakang
+        </label>
+        {defaultValues.back_image && (
+          <img
+            src={defaultValues.back_image}
+            alt="Cover belakang saat ini"
+            className="w-20 h-28 object-cover rounded mb-2"
+          />
+        )}
+        <input
+          type="file"
+          name="back_image"
+          accept="image/*"
+          onChange={(e) => handleImageChange(e, setBackPreview)}
+          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+        />
+        {defaultValues.back_image && (
+          <p className="text-xs text-gray-400 mt-1">
+            Biarkan kosong untuk mempertahankan cover belakang saat ini.
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Punggung Buku (Spine)
+        </label>
+        {defaultValues.spine_image && (
+          <img
+            src={defaultValues.spine_image}
+            alt="Spine saat ini"
+            className="w-10 h-28 object-cover rounded mb-2"
+          />
+        )}
+        <input
+          type="file"
+          name="spine_image"
+          accept="image/*"
+          onChange={(e) => handleImageChange(e, setSpinePreview)}
+          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+        />
+        {defaultValues.spine_image && (
+          <p className="text-xs text-gray-400 mt-1">
+            Biarkan kosong untuk mempertahankan spine saat ini.
+          </p>
+        )}
+      </div>
+
+      {/* 3D Preview */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Preview 3D
+        </label>
+        {coverPreview && backPreview && spinePreview ? (
+          <div className="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+            <Book3DViewer
+              frontImage={coverPreview}
+              backImage={backPreview}
+              spineImage={spinePreview}
+            />
+          </div>
+        ) : (
+          <div className="w-full h-48 bg-gray-50 rounded-xl flex items-center justify-center text-sm text-gray-400 border border-dashed border-gray-300">
+            Upload cover depan, belakang, dan spine untuk preview 3D
+          </div>
         )}
       </div>
 

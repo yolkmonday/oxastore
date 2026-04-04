@@ -35,6 +35,8 @@ export default async function EditBookPage({
           is_bestseller: book.is_bestseller,
           discount: book.discount,
           cover_image: book.cover_image,
+          back_image: book.back_image,
+          spine_image: book.spine_image,
           description: book.description,
           pages: book.pages,
           language: book.language,
