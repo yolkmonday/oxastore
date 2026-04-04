@@ -45,7 +45,7 @@ function StandingBook({
   return (
     <div className="absolute inset-0" style={{ zIndex, ...style }}>
       <div
-        className="absolute left-1/2 top-1/2 w-[115px] h-[175px]"
+        className="absolute left-1/2 top-1/2 w-[130px] h-[195px]"
         style={{
           transformStyle: "preserve-3d",
           transform: `translate(-50%, -50%) rotateY(${rotateY}deg)`,
@@ -163,7 +163,7 @@ export default function BookMockup({
   if (!hasBack) {
     return (
       <div
-        className="relative w-[160px] h-[220px] group-hover:scale-105 transition-transform duration-300"
+        className="relative w-[190px] h-[250px] group-hover:scale-105 transition-transform duration-300"
         style={{ perspective: "800px", perspectiveOrigin: "50% 45%" }}
       >
         <StandingBook
@@ -186,7 +186,7 @@ export default function BookMockup({
   // Two books: back cover on left (spine facing right/center), front cover on right (spine facing left/center)
   return (
     <div
-      className="relative w-[190px] h-[220px] group-hover:scale-105 transition-transform duration-300"
+      className="relative w-[210px] h-[250px] group-hover:scale-105 transition-transform duration-300"
       style={{ perspective: "900px", perspectiveOrigin: "50% 45%" }}
     >
       {/* Back book — left side, rotated so back cover faces viewer, spine on right */}
