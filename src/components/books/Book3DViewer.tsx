@@ -18,9 +18,9 @@ function BookMesh({
   frontImage,
   backImage,
   spineImage,
-  width = 2.8,
-  height = 4,
-  depth = 0.3,
+  width = 2,
+  height = 2.8,
+  depth = 0.2,
 }: Book3DViewerProps) {
   const meshRef = useRef<Mesh>(null);
   const isHovering = useRef(false);
@@ -103,7 +103,7 @@ export default function Book3DViewer(props: Book3DViewerProps) {
     <Suspense fallback={<FallbackPlaceholder />}>
       <div className="w-full h-[400px] p-6">
         <Canvas
-          camera={{ position: [0, 0, 6], fov: 40 }}
+          camera={{ position: [0, 0, 5], fov: 35 }}
           onCreated={handleCreated}
           gl={{ powerPreference: "low-power", antialias: true }}
           frameloop="demand"
