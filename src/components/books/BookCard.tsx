@@ -24,7 +24,8 @@ export default function BookCard({ book }: BookCardProps) {
         {book.coverImage ? (
           <BookMockup
             coverImage={book.coverImage}
-            spineImage={book.spineImage ?? undefined}
+            backImage={book.backImage}
+            spineImage={book.spineImage}
             title={book.title}
             pages={book.pages}
           />
