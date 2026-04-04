@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { Suspense, useRef, useMemo, useState, useCallback } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { TextureLoader, Mesh, Texture } from "three";
@@ -53,12 +53,6 @@ function BookMesh({
       onPointerOut={() => (isHovering.current = false)}
     >
       <boxGeometry args={[width, height, depth]} />
-      {/*
-        Box face order: +X, -X, +Y, -Y, +Z, -Z
-        +X = right edge, -X = left edge (spine),
-        +Y = top, -Y = bottom,
-        +Z = front cover, -Z = back cover
-      */}
       <meshStandardMaterial attach="material-0" color="#f5f5f4" />
       <meshStandardMaterial attach="material-1" map={spineTex} color={spineTex ? undefined : "#e7e5e4"} />
       <meshStandardMaterial attach="material-2" color="#f5f5f4" />
@@ -69,23 +63,73 @@ function BookMesh({
   );
 }
 
-export default function Book3DViewer(props: Book3DViewerProps) {
+function FallbackPlaceholder() {
   return (
-    <div className="w-full h-[400px] p-6">
-      <Canvas camera={{ position: [0, 0, 6], fov: 40 }}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} />
-        <directionalLight position={[-5, -5, -5]} intensity={0.3} />
-        <BookMesh {...props} />
-        <OrbitControls
-          enableZoom={true}
-          enablePan={false}
-          minDistance={3}
-          maxDistance={10}
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={(Math.PI * 2) / 3}
-        />
-      </Canvas>
+    <div className="w-full h-[400px] p-6 flex items-center justify-center bg-gray-50 rounded-xl text-sm text-gray-400">
+      Memuat preview 3D...
     </div>
   );
+}
+
+export default function Book3DViewer(props: Book3DViewerProps) {
+  const [contextLost, setContextLost] = useState(false);
+
+  const handleCreated = useCallback((state: { gl: { domElement: HTMLCanvasElement } }) => {
+    const canvas = state.gl.domElement;
+    canvas.addEventListener("webglcontextlost", (e) => {
+      e.preventDefault();
+      setContextLost(true);
+    });
+    canvas.addEventListener("webglcontextrestored", () => {
+      setContextLost(false);
+    });
+  }, []);
+
+  if (contextLost) {
+    return (
+      <div className="w-full h-[400px] p-6 flex flex-col items-center justify-center bg-gray-50 rounded-xl gap-3">
+        <p className="text-sm text-gray-400">Preview 3D tidak tersedia</p>
+        <button
+          onClick={() => setContextLost(false)}
+          className="text-xs text-brand-500 hover:text-brand-600 font-medium"
+        >
+          Coba lagi
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <Suspense fallback={<FallbackPlaceholder />}>
+      <div className="w-full h-[400px] p-6">
+        <Canvas
+          camera={{ position: [0, 0, 6], fov: 40 }}
+          onCreated={handleCreated}
+          gl={{ powerPreference: "low-power", antialias: true }}
+          frameloop="demand"
+        >
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.8} />
+          <directionalLight position={[-5, -5, -5]} intensity={0.3} />
+          <BookMesh {...props} />
+          <OrbitControls
+            enableZoom={true}
+            enablePan={false}
+            minDistance={3}
+            maxDistance={10}
+            minPolarAngle={Math.PI / 3}
+            maxPolarAngle={(Math.PI * 2) / 3}
+          />
+          <Invalidate />
+        </Canvas>
+      </div>
+    </Suspense>
+  );
+}
+
+function Invalidate() {
+  useFrame(({ invalidate }) => {
+    invalidate();
+  });
+  return null;
 }

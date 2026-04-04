@@ -28,6 +28,7 @@ export default function BookCard({ book }: BookCardProps) {
             width={160}
             height={220}
             className="rounded-md object-cover hover:opacity-90 transition-opacity"
+            style={{ width: "160px", height: "auto" }}
           />
         ) : (
           <div className="w-[160px] h-[220px] rounded-md bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-4">
