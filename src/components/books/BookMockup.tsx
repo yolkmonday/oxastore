@@ -10,10 +10,11 @@ interface BookMockupProps {
   pages?: number;
 }
 
+// Match Three.js pagestoDepth ratio: depth/height = 0.0015/2.8, scaled to 220px
 function getSpineWidth(pages?: number): number {
-  if (!pages || pages <= 0) return 12;
-  const w = pages * 0.06;
-  return Math.max(8, Math.min(w, 28));
+  if (!pages || pages <= 0) return Math.round(0.15 / 2.8 * 220); // ~12px
+  const w = pages * 0.0015 / 2.8 * 220;
+  return Math.max(Math.round(0.08 / 2.8 * 220), Math.min(Math.round(w), Math.round(0.5 / 2.8 * 220)));
 }
 
 function SingleBook({
