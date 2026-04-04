@@ -10,171 +10,138 @@ interface BookMockupProps {
   pages?: number;
 }
 
-// Match Three.js pagestoDepth ratio: depth/height = 0.0015/2.8, scaled to 220px
 function getSpineWidth(pages?: number): number {
   if (!pages || pages <= 0) return Math.round((0.15 / 2.8) * 220);
-  const w = (pages * 0.0015) / 2.8 * 220;
+  const w = ((pages * 0.0015) / 2.8) * 220;
   return Math.max(
     Math.round((0.08 / 2.8) * 220),
     Math.min(Math.round(w), Math.round((0.5 / 2.8) * 220))
   );
 }
 
-function SingleBook({
+/**
+ * A single standing book rendered with CSS 3D.
+ * `spineOnRight` controls which side the spine is on.
+ */
+function StandingBook({
   image,
   alt,
   spineImage,
   spineW,
   rotateY,
-  translateX,
-  translateZ,
+  style,
   zIndex,
+  spineOnRight,
 }: {
   image: string;
   alt: string;
   spineImage?: string | null;
   spineW: number;
   rotateY: number;
-  translateX: number;
-  translateZ: number;
+  style?: React.CSSProperties;
   zIndex: number;
+  spineOnRight: boolean;
 }) {
-  const isBack = rotateY > 0;
-
   return (
-    <div
-      className="absolute inset-0"
-      style={{ zIndex }}
-    >
+    <div className="absolute inset-0" style={{ zIndex, ...style }}>
       <div
-        className="absolute w-[120px] h-[190px] left-1/2 top-1/2"
+        className="absolute left-1/2 top-1/2 w-[115px] h-[175px]"
         style={{
           transformStyle: "preserve-3d",
-          transform: `translate(-50%, -50%) translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
+          transform: `translate(-50%, -50%) rotateY(${rotateY}deg)`,
         }}
       >
-        {/* Cover face */}
+        {/* Front face (the visible cover) */}
         <div
           className="absolute inset-0 overflow-hidden"
           style={{
-            backfaceVisibility: "hidden",
             transform: `translateZ(${spineW / 2}px)`,
-            borderRadius: isBack ? "3px 1px 1px 3px" : "1px 3px 3px 1px",
-            boxShadow: isBack
-              ? "4px 4px 12px rgba(0,0,0,0.3)"
-              : "-2px 4px 16px rgba(0,0,0,0.35)",
+            backfaceVisibility: "hidden",
+            borderRadius: spineOnRight ? "2px 3px 3px 2px" : "3px 2px 2px 3px",
+            boxShadow: `${spineOnRight ? "" : "-"}3px 6px 20px rgba(0,0,0,0.4)`,
           }}
         >
-          <Image
-            src={image}
-            alt={alt}
-            fill
-            className="object-cover"
-            sizes="120px"
-          />
-          {/* Lighting overlay */}
+          <Image src={image} alt={alt} fill className="object-cover" sizes="115px" />
+          {/* Subtle light gradient */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: isBack
-                ? "linear-gradient(to left, rgba(0,0,0,0.08), transparent 40%)"
-                : "linear-gradient(to right, rgba(255,255,255,0.06), transparent 30%, rgba(0,0,0,0.06))",
+              background: spineOnRight
+                ? "linear-gradient(105deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)"
+                : "linear-gradient(255deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(0,0,0,0.1) 100%)",
             }}
           />
         </div>
 
-        {/* Back of cover (hidden, but needed for 3D) */}
+        {/* Back face */}
         <div
           className="absolute inset-0"
           style={{
-            backfaceVisibility: "hidden",
             transform: `translateZ(-${spineW / 2}px) rotateY(180deg)`,
-            background: "#d4d0cb",
-            borderRadius: isBack ? "1px 3px 3px 1px" : "3px 1px 1px 3px",
+            backfaceVisibility: "hidden",
+            background: "#c8c4be",
+            borderRadius: spineOnRight ? "3px 2px 2px 3px" : "2px 3px 3px 2px",
           }}
         />
 
-        {/* Spine face */}
+        {/* Spine */}
         <div
           className="absolute top-0 h-full overflow-hidden"
           style={{
             width: `${spineW}px`,
-            left: isBack ? undefined : 0,
-            right: isBack ? 0 : undefined,
+            ...(spineOnRight
+              ? { right: 0, transformOrigin: "right center", transform: `rotateY(-90deg) translateX(${spineW / 2}px)` }
+              : { left: 0, transformOrigin: "left center", transform: `rotateY(90deg) translateX(-${spineW / 2}px)` }),
             backfaceVisibility: "hidden",
-            transform: isBack
-              ? `rotateY(-90deg) translateX(${spineW / 2}px)`
-              : `rotateY(90deg) translateX(-${spineW / 2}px)`,
-            transformOrigin: isBack ? "right center" : "left center",
-            boxShadow: "inset 0 0 4px rgba(0,0,0,0.15)",
           }}
         >
           {spineImage ? (
             <>
-              <Image
-                src={spineImage}
-                alt={`${alt} spine`}
-                fill
-                className="object-cover"
-                sizes={`${spineW}px`}
-              />
+              <Image src={spineImage} alt={`${alt} spine`} fill className="object-cover" sizes={`${spineW}px`} />
               <div
-                className="absolute inset-0"
-                style={{
-                  background: "linear-gradient(to right, rgba(0,0,0,0.15), transparent 30%, transparent 70%, rgba(0,0,0,0.1))",
-                }}
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: "linear-gradient(to right, rgba(0,0,0,0.12), transparent 40%, transparent 60%, rgba(0,0,0,0.08))" }}
               />
             </>
           ) : (
-            <div
-              className="w-full h-full"
-              style={{
-                background: "linear-gradient(to right, #3a3a3a, #555, #4a4a4a)",
-              }}
-            />
+            <div className="w-full h-full" style={{ background: "linear-gradient(to right, #3d3d3d, #555, #444)" }} />
           )}
         </div>
 
-        {/* Top edge (pages) */}
-        <div
-          className="absolute top-0 left-0 w-full"
-          style={{
-            height: `${spineW}px`,
-            backfaceVisibility: "hidden",
-            transform: `rotateX(-90deg) translateY(-${spineW / 2}px)`,
-            transformOrigin: "top center",
-            background: "linear-gradient(to bottom, #f0ede8, #e5e2dc)",
-            boxShadow: "inset 0 -1px 3px rgba(0,0,0,0.08)",
-          }}
-        />
-
-        {/* Bottom edge (pages) */}
-        <div
-          className="absolute bottom-0 left-0 w-full"
-          style={{
-            height: `${spineW}px`,
-            backfaceVisibility: "hidden",
-            transform: `rotateX(90deg) translateY(${spineW / 2}px)`,
-            transformOrigin: "bottom center",
-            background: "linear-gradient(to top, #e8e5e0, #ddd9d3)",
-          }}
-        />
-
-        {/* Right/Left edge (pages, opposite of spine) */}
+        {/* Page edge (opposite of spine) */}
         <div
           className="absolute top-0 h-full"
           style={{
             width: `${spineW}px`,
-            right: isBack ? undefined : 0,
-            left: isBack ? 0 : undefined,
+            ...(spineOnRight
+              ? { left: 0, transformOrigin: "left center", transform: `rotateY(90deg) translateX(-${spineW / 2}px)` }
+              : { right: 0, transformOrigin: "right center", transform: `rotateY(-90deg) translateX(${spineW / 2}px)` }),
             backfaceVisibility: "hidden",
-            transform: isBack
-              ? `rotateY(90deg) translateX(-${spineW / 2}px)`
-              : `rotateY(-90deg) translateX(${spineW / 2}px)`,
-            transformOrigin: isBack ? "left center" : "right center",
-            background: isBack
-              ? "repeating-linear-gradient(to right, #f0ede8 0px, #e2dfd9 1px, #f0ede8 2px)"
-              : "repeating-linear-gradient(to right, #f0ede8 0px, #e2dfd9 1px, #f0ede8 2px)",
+            background: "repeating-linear-gradient(to right, #f2efea 0px, #e6e3dd 1px, #f2efea 2px)",
+          }}
+        />
+
+        {/* Top edge */}
+        <div
+          className="absolute top-0 left-0 w-full"
+          style={{
+            height: `${spineW}px`,
+            transform: `rotateX(-90deg) translateY(-${spineW / 2}px)`,
+            transformOrigin: "top center",
+            backfaceVisibility: "hidden",
+            background: "linear-gradient(to bottom, #f2efea, #e6e3dd)",
+          }}
+        />
+
+        {/* Bottom edge */}
+        <div
+          className="absolute bottom-0 left-0 w-full"
+          style={{
+            height: `${spineW}px`,
+            transform: `rotateX(90deg) translateY(${spineW / 2}px)`,
+            transformOrigin: "bottom center",
+            backfaceVisibility: "hidden",
+            background: "linear-gradient(to top, #e6e3dd, #dad7d1)",
           }}
         />
       </div>
@@ -192,68 +159,62 @@ export default function BookMockup({
   const spineW = getSpineWidth(pages);
   const hasBack = !!backImage;
 
+  // Single book
   if (!hasBack) {
     return (
       <div
-        className="relative w-[170px] h-[230px] group-hover:scale-105 transition-transform duration-300"
-        style={{ perspective: "800px" }}
+        className="relative w-[160px] h-[220px] group-hover:scale-105 transition-transform duration-300"
+        style={{ perspective: "800px", perspectiveOrigin: "50% 45%" }}
       >
-        <SingleBook
+        <StandingBook
           image={coverImage}
           alt={title}
           spineImage={spineImage}
           spineW={spineW}
-          rotateY={-25}
-          translateX={8}
-          translateZ={0}
+          rotateY={-28}
           zIndex={1}
+          spineOnRight={false}
         />
-        {/* Ground shadow */}
         <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[75%] h-[10px] rounded-full"
-          style={{
-            background: "radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 70%)",
-            filter: "blur(4px)",
-          }}
+          className="absolute bottom-[18px] left-1/2 -translate-x-1/2 w-[70%] h-2"
+          style={{ background: "radial-gradient(ellipse, rgba(0,0,0,0.3), transparent 70%)", filter: "blur(4px)" }}
         />
       </div>
     );
   }
 
+  // Two books: back cover on left (spine facing right/center), front cover on right (spine facing left/center)
   return (
     <div
-      className="relative w-[190px] h-[230px] group-hover:scale-105 transition-transform duration-300"
-      style={{ perspective: "800px" }}
+      className="relative w-[190px] h-[220px] group-hover:scale-105 transition-transform duration-300"
+      style={{ perspective: "900px", perspectiveOrigin: "50% 45%" }}
     >
-      {/* Back book — behind, rotated to show back cover */}
-      <SingleBook
+      {/* Back book — left side, rotated so back cover faces viewer, spine on right */}
+      <StandingBook
         image={backImage}
         alt={`${title} back`}
         spineImage={spineImage}
         spineW={spineW}
-        rotateY={30}
-        translateX={-18}
-        translateZ={-20}
+        rotateY={32}
         zIndex={1}
+        spineOnRight={true}
+        style={{ left: "-12px" }}
       />
-      {/* Front book — in front, rotated to show front cover */}
-      <SingleBook
+      {/* Front book — right side, rotated so front cover faces viewer, spine on left */}
+      <StandingBook
         image={coverImage}
         alt={title}
         spineImage={spineImage}
         spineW={spineW}
-        rotateY={-25}
-        translateX={18}
-        translateZ={20}
+        rotateY={-28}
         zIndex={2}
+        spineOnRight={false}
+        style={{ left: "12px" }}
       />
       {/* Ground shadow */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[85%] h-[10px] rounded-full"
-        style={{
-          background: "radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%)",
-          filter: "blur(5px)",
-        }}
+        className="absolute bottom-[16px] left-1/2 -translate-x-1/2 w-[80%] h-2"
+        style={{ background: "radial-gradient(ellipse, rgba(0,0,0,0.35), transparent 70%)", filter: "blur(5px)" }}
       />
     </div>
   );
