@@ -161,14 +161,14 @@ export default function BookMockup({
     return (
       <div
         className="relative w-[190px] h-[250px] group-hover:scale-105 transition-transform duration-300"
-        style={{ perspective: "800px", perspectiveOrigin: "50% 45%" }}
+        style={{ perspective: "1200px", perspectiveOrigin: "50% 45%" }}
       >
         <StandingBook
           image={coverImage}
           alt={title}
           spineImage={spineImage}
           spineW={spineW}
-          rotateY={-28}
+          rotateY={-18}
           zIndex={1}
           spineOnRight={false}
         />
@@ -184,7 +184,7 @@ export default function BookMockup({
   return (
     <div
       className="relative w-[210px] h-[250px] group-hover:scale-105 transition-transform duration-300"
-      style={{ perspective: "900px", perspectiveOrigin: "50% 45%" }}
+      style={{ perspective: "1200px", perspectiveOrigin: "50% 45%" }}
     >
       {/* Back book — left side, rotated so back cover faces viewer, spine on right */}
       <StandingBook
@@ -192,7 +192,7 @@ export default function BookMockup({
         alt={`${title} back`}
         spineImage={spineImage}
         spineW={spineW}
-        rotateY={32}
+        rotateY={20}
         zIndex={1}
         spineOnRight={true}
         style={{ left: "-12px" }}
@@ -203,7 +203,7 @@ export default function BookMockup({
         alt={title}
         spineImage={spineImage}
         spineW={spineW}
-        rotateY={-28}
+        rotateY={-18}
         zIndex={2}
         spineOnRight={false}
         style={{ left: "12px" }}
