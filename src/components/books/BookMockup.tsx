@@ -11,12 +11,9 @@ interface BookMockupProps {
 }
 
 function getSpineWidth(pages?: number): number {
-  if (!pages || pages <= 0) return Math.round((0.15 / 2.8) * 220);
-  const w = ((pages * 0.0015) / 2.8) * 220;
-  return Math.max(
-    Math.round((0.08 / 2.8) * 220),
-    Math.min(Math.round(w), Math.round((0.5 / 2.8) * 220))
-  );
+  if (!pages || pages <= 0) return 6;
+  const w = pages * 0.035;
+  return Math.max(4, Math.min(Math.round(w), 18));
 }
 
 /**
