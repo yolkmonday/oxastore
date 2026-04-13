@@ -17,8 +17,14 @@ export default function Footer({ menuGroups = [] }: FooterProps) {
               <Image src="/oxa-logo.png" alt="OXA Matter" height={28} width={140} className="h-7 w-auto grayscale opacity-40" />
             </div>
             <p className="text-sm text-gray-500">
-              &copy; 2024 PT OXA Matter Indonesia. Toko buku & penerbit.
+              &copy; 2024 OXA Matter Indonesia. Penerbit & toko buku.
             </p>
+            <div className="mt-3 space-y-1 text-xs text-gray-400">
+              <p>Perseroan Perorangan</p>
+              <p>AHU-015334.AH.01.30.Tahun 2026</p>
+              <p>NIB: 1303260117372</p>
+              <p>KBLI: 58110 — Penerbitan Buku</p>
+            </div>
           </div>
 
           {menuGroups.map((group) => {

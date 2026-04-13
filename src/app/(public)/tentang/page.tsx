@@ -16,10 +16,10 @@ export default function TentangPage() {
           pembacanya
         </p>
         <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-          OXA Matter
+          OXA Matter Indonesia
         </h1>
         <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          OXA Matter hadir sebagai ruang pertemuan antara penulis, penerbit, dan pembaca — melalui buku-buku yang dipilih, diterbitkan, dan disebarkan dengan penuh pertimbangan.
+          OXA Matter Indonesia hadir sebagai ruang pertemuan antara penulis, penerbit, dan pembaca — melalui buku-buku yang dipilih, diterbitkan, dan disebarkan dengan penuh pertimbangan.
         </p>
       </section>
 
@@ -33,10 +33,58 @@ export default function TentangPage() {
             Mulai dari keyakinan bahwa buku adalah hal yang serius
           </p>
           <p>
-            OXA Matter lahir di Padang, Sumatera Barat — dari kepercayaan bahwa industri penerbitan bisa berjalan lebih dekat, lebih jujur, dan lebih bermakna bagi penulis dan pembaca Indonesia.
+            OXA Matter Indonesia lahir di Padang, Sumatera Barat — dari kepercayaan bahwa industri penerbitan bisa berjalan lebih dekat, lebih jujur, dan lebih bermakna bagi penulis dan pembaca Indonesia.
           </p>
           <p>
-            Di bawah PT Oxa Matter Indonesia, kami menjalankan dua peran sekaligus: sebagai OXA Publisher, kami menerbitkan karya-karya yang layak mendapat perhatian lebih luas; sebagai toko buku, kami memastikan buku-buku tersebut sampai ke tangan yang tepat.
+            Di bawah OXA Matter Indonesia, kami menjalankan dua peran sekaligus: sebagai OXA Publisher (imprint penerbitan kami), kami menerbitkan karya-karya yang layak mendapat perhatian lebih luas; sebagai toko buku, kami memastikan buku-buku tersebut sampai ke tangan yang tepat.
+          </p>
+        </div>
+      </section>
+
+      {/* Profil & Legalitas */}
+      <section className="py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+          Profil Penerbit
+        </h2>
+        <div className="bg-gray-50 rounded-2xl p-8">
+          <div className="space-y-4 text-base text-gray-700">
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">Nama Penerbit</span>
+              <span>OXA Matter Indonesia</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">Bentuk Hukum</span>
+              <span>Perseroan Perorangan</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">Nomor AHU</span>
+              <span>AHU-015334.AH.01.30.Tahun 2026</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">NIB</span>
+              <span>1303260117372</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">KBLI</span>
+              <span>58110 — Penerbitan Buku</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">Imprint</span>
+              <span>OXA Publisher</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4">
+              <span className="font-semibold text-gray-900">Alamat</span>
+              <span>
+                Jalan Jembatan Gantung, Kampung Baru Nan XX,
+                <br />
+                Lubuk Begalung, Kota Padang,
+                <br />
+                Sumatera Barat 25170
+              </span>
+            </div>
+          </div>
+          <p className="mt-6 text-sm text-gray-500 italic">
+            OXA Publisher adalah nama imprint (merek penerbitan) dari OXA Matter Indonesia.
           </p>
         </div>
       </section>
@@ -153,7 +201,7 @@ export default function TentangPage() {
           &ldquo;Kami percaya setiap buku yang layak ditulis juga layak diterbitkan — dan layak sampai kepada pembaca yang tepat.&rdquo;
         </blockquote>
         <p className="text-sm text-gray-500">
-          — OXA Matter, Padang
+          — OXA Matter Indonesia, Padang
         </p>
       </section>
 

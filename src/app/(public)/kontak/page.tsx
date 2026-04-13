@@ -42,9 +42,11 @@ export default function KontakPage() {
             <Icon icon="mdi:map-marker-outline" className="text-4xl text-brand-500 mx-auto mb-4" />
             <h3 className="font-semibold text-gray-900 mb-2">Alamat</h3>
             <p className="text-sm text-gray-600">
-              Padang, Sumatera Barat
+              Jalan Jembatan Gantung,
               <br />
-              Indonesia
+              Kampung Baru Nan XX, Lubuk Begalung,
+              <br />
+              Kota Padang, Sumatera Barat 25170
             </p>
           </div>
         </div>

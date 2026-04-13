@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OXA Store — toko buku & penerbit",
+  title: "OXA Matter Indonesia — Penerbit & Toko Buku",
   description:
-    "Toko buku dan penerbit OXA Publisher. PT OXA Matter Indonesia.",
+    "OXA Matter Indonesia adalah penerbit dan toko buku yang berbasis di Padang, Sumatera Barat. OXA Publisher adalah imprint penerbitan dari OXA Matter Indonesia.",
 };
 
 export default function RootLayout({

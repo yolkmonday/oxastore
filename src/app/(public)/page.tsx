@@ -36,8 +36,8 @@ export default async function Home() {
           <span className="text-brand-500"> untuk hidup bermakna.</span>
         </h1>
         <p className="text-base text-gray-500 max-w-lg mx-auto mb-6">
-          Temukan koleksi buku terbaik yang menginspirasi pertumbuhan,
-          kreativitas, dan kehidupan yang penuh makna.
+          OXA Matter Indonesia — temukan koleksi buku terbaik yang menginspirasi
+          pertumbuhan, kreativitas, dan kehidupan yang penuh makna.
         </p>
         <HomeSearchBar />
       </section>
