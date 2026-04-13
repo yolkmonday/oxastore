@@ -11,7 +11,7 @@ export default function PostContent({ html }: PostContentProps) {
 
   return (
     <div
-      className="prose prose-gray max-w-none"
+      className="prose prose-gray max-w-none break-words overflow-hidden"
       dangerouslySetInnerHTML={{ __html: sanitized }}
     />
   );
