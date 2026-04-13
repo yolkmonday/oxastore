@@ -14,18 +14,14 @@ export default async function PublicLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [headerGroups, footerGroups] = await Promise.all([
-    getMenusByLocation("header"),
-    getMenusByLocation("footer"),
-  ]);
-
+  const headerGroups = await getMenusByLocation("header");
   const headerItems = headerGroups[0]?.items ?? [];
 
   return (
     <CartProvider>
       <Header userEmail={user?.email} menuItems={headerItems} />
       <main>{children}</main>
-      <Footer menuGroups={footerGroups} />
+      <Footer />
     </CartProvider>
   );
 }
