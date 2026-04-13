@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { createSupabaseClient } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 const BASE_URL = "https://oxamatter.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
