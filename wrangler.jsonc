@@ -6,5 +6,17 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
-  }
+  },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://dxktqoldciccyejvpnsr.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4a3Rxb2xkY2ljY3llanZwbnNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0NzU1MTUsImV4cCI6MjA4OTA1MTUxNX0.YYa3KBLXCpZFDYscxcGwsN5E98cR10j6GL9TC7ZY9Fo",
+    "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4a3Rxb2xkY2ljY3llanZwbnNyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzQ3NTUxNSwiZXhwIjoyMDg5MDUxNTE1fQ.fweTA6OobR8o3EzGd5cDk-4fzW2eMk6WWYj4GcFIZpk",
+    "SESSION_SECRET": "f8d9ae7ff14192cbfc68f6f718b79949"
+  },
+  "routes": [
+    {
+      "pattern": "oxamatter.com",
+      "custom_domain": true
+    }
+  ]
 }
