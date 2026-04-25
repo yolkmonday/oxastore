@@ -21,8 +21,8 @@ const faqs = [
     a: "Saat ini kami fokus pada buku fisik. Untuk ketersediaan format digital, silakan hubungi kami langsung.",
   },
   {
-    q: "Bagaimana cara menerbitkan buku di OXA Publisher?",
-    a: "Kirimkan naskah Anda melalui email ke halo@oxamatter.com dengan subjek 'Pengajuan Naskah'. Sertakan sinopsis, 3 bab pertama, dan biodata penulis. Tim editorial kami akan merespons dalam 2-4 minggu.",
+    q: "Apakah harga buku di OXA bisa dinegosiasi?",
+    a: "Harga yang tertera adalah harga tetap. Untuk pembelian dalam jumlah besar (grosir, instansi, komunitas), silakan hubungi kami melalui email atau WhatsApp untuk penawaran khusus.",
   },
   {
     q: "Apakah ada program pre-order?",

@@ -9,9 +9,8 @@ export default function KatalogPage() {
           Katalog Buku
         </h1>
         <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Katalog buku OXA Matter Indonesia akan segera hadir. Kami saat ini
-          sedang dalam proses pendaftaran ISBN dan akan segera mempublikasikan
-          daftar terbitan kami di halaman ini.
+          Jelajahi seluruh koleksi buku yang tersedia di OXA Matter Indonesia —
+          dikurasi dengan cermat untuk pembaca di seluruh Indonesia.
         </p>
       </section>
 
@@ -22,11 +21,11 @@ export default function KatalogPage() {
             className="text-6xl text-gray-300 mx-auto mb-6"
           />
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Segera hadir
+            Lihat semua buku
           </h3>
           <p className="text-base text-gray-600 mb-6 max-w-md mx-auto">
-            Sementara itu, Anda dapat melihat koleksi buku yang tersedia di toko
-            kami.
+            Telusuri koleksi lengkap buku yang tersedia, lengkap dengan filter
+            kategori dan pencarian.
           </p>
           <Link
             href="/books"
