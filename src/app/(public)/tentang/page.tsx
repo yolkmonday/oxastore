@@ -29,14 +29,23 @@ export default function TentangPage() {
           Cerita kami
         </h2>
         <div className="space-y-4 text-base text-gray-600 leading-relaxed">
-          <p>
-            Mulai dari keyakinan bahwa buku adalah hal yang serius
+          <p className="text-lg text-gray-700 font-medium">
+            Mulai dari keyakinan bahwa buku adalah hal yang serius.
           </p>
           <p>
-            OXA Matter Indonesia lahir di Padang, Sumatera Barat — dari kepercayaan bahwa pengalaman membeli buku bisa berjalan lebih dekat, lebih jujur, dan lebih bermakna bagi pembaca Indonesia.
+            OXA Matter Indonesia lahir di Padang, Sumatera Barat — dari kepercayaan bahwa pengalaman membeli buku bisa berjalan lebih dekat, lebih jujur, dan lebih bermakna bagi pembaca Indonesia. Bukan sekadar transaksi, melainkan jembatan antara kata-kata yang ditulis dengan sungguh-sungguh dan pembaca yang sedang mencarinya.
           </p>
           <p>
-            Kami bukan penerbit. Kami toko buku — fokus pada satu peran: memastikan buku-buku pilihan sampai ke tangan pembaca yang tepat, dengan layanan yang transparan dan amanah.
+            Nama OXA Matter adalah pengingat bagi kami sendiri: bahwa apa yang kami sediakan harus berarti — <em>matter</em> — bagi orang yang membacanya. Karena itu, kami memilih untuk tidak menjadi toko buku yang sekadar besar. Kami memilih untuk menjadi toko buku yang bertanggung jawab terhadap apa yang ada di rak kami.
+          </p>
+          <p>
+            Setiap judul yang masuk koleksi kami melewati pertimbangan: apakah buku ini layak dibawa ke pembaca? Apakah ia membuka sesuatu, menghibur dengan jujur, atau menemani dengan tulus? Kami tidak selalu punya jawaban yang sempurna, tapi kami berusaha agar pertanyaannya tetap hidup dalam setiap pilihan.
+          </p>
+          <p>
+            Padang, kota tempat kami berdiri, mengajarkan kami soal kesabaran dan ketekunan — dua hal yang menurut kami juga merupakan inti dari membaca. Dari sini, kami melayani pembaca di seluruh Indonesia: mengirimkan paket-paket buku ke rumah-rumah, kantor-kantor, dan komunitas-komunitas yang percaya bahwa buku masih punya tempat di kehidupan mereka.
+          </p>
+          <p>
+            Kami tidak terburu-buru. Kami tidak ingin terburu-buru. Buku tidak pernah dibaca dengan tergesa-gesa, dan kami percaya cara kami menjual buku pun harus mencerminkan hal itu — penuh perhatian, penuh pertimbangan, dan penuh rasa hormat kepada siapa pun yang menerimanya di ujung perjalanan.
           </p>
         </div>
       </section>
